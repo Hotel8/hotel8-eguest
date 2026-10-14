@@ -1,0 +1,43 @@
+{
+  "vertical": "hotel8",
+  "services": [],
+  "apps": [
+    {
+      "slug": "eguest",
+      "web_dir": "build/web",
+      "listing": {
+        "app_name": "Hotel8:eGuest",
+        "app_slug": "hotel8-eguest",
+        "description": "Universal guest experience app — digital key, room service, concierge, folio, and checkout. Shared across hospitality properties.",
+        "backend_url": "",
+        "supports_dcr": true,
+        "visibility": "public",
+        "status": "published",
+        "oauth_defaults": {
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "response_types": [
+            "code"
+          ],
+          "token_endpoint_auth_method": "none",
+          "scopes": [
+            "openid",
+            "profile",
+            "email",
+            "hotel8:pms:reservations:read",
+            "hotel8:pms:reservations:write",
+            "hotel8:pms:folio:read",
+            "hotel8:pos:orders:read",
+            "hotel8:pos:orders:write",
+            "upsell:offers:read",
+            "loyalty:profile:read",
+            "loyalty:profile:write"
+          ],
+          "consent_required": false
+        }
+      }
+    }
+  ]
+}
