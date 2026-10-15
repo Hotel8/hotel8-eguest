@@ -150,7 +150,9 @@ class _GuestLandingPage extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Sign in to your stay',
-              style: Theme.of(context).textTheme.bodyLarge
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
                   ?.copyWith(color: Colors.grey[600]),
             ),
             const SizedBox(height: 32),
@@ -320,7 +322,8 @@ class _OffersTab extends StatelessWidget {
       return _Placeholder(
         icon: Icons.local_offer_outlined,
         title: 'No Active Stay',
-        message: 'Upsell offers will appear here once you have an active reservation.',
+        message:
+            'Upsell offers will appear here once you have an active reservation.',
       );
     }
     return GuestUpsellPage(client: client, stayId: stayId);

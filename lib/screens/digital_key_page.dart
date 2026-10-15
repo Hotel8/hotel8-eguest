@@ -160,9 +160,9 @@ class _DigitalKeyPageState extends State<DigitalKeyPage> {
                       onTap: _activating
                           ? null
                           : () => _activateKey(
-                              widget.stay.roomNumber ??
-                                  widget.stay.roomTypeName,
-                            ),
+                                widget.stay.roomNumber ??
+                                    widget.stay.roomTypeName,
+                              ),
                     ),
                   ),
               ],

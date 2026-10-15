@@ -20,9 +20,9 @@ import 'models.dart';
 
 class BffClient {
   BffClient({String? baseUrl, String? propertyId, http.Client? httpClient})
-    : _baseUrl = baseUrl ?? _resolveBaseUrl(),
-      _propertyId = propertyId ?? '',
-      _httpClient = httpClient ?? http.Client();
+      : _baseUrl = baseUrl ?? _resolveBaseUrl(),
+        _propertyId = propertyId ?? '',
+        _httpClient = httpClient ?? http.Client();
 
   final String _baseUrl;
 
@@ -102,10 +102,10 @@ class BffClient {
   }
 
   Map<String, String> _headers() => {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    if (_authToken != null) 'Authorization': 'Bearer $_authToken',
-  };
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        if (_authToken != null) 'Authorization': 'Bearer $_authToken',
+      };
 
   Future<Map<String, dynamic>> _handle(http.Response resp) async {
     final body = resp.body.isEmpty ? '{}' : resp.body;
@@ -208,9 +208,8 @@ class BffClient {
       '/proxy/hotel8-pms/v1/properties/$_propertyId'
       '/reservations/${request.stayId}/check-out',
       {
-        'payment_method': request.paymentMethodToken != null
-            ? 'CREDIT_CARD'
-            : 'CASH',
+        'payment_method':
+            request.paymentMethodToken != null ? 'CREDIT_CARD' : 'CASH',
       },
     );
   }
@@ -359,8 +358,7 @@ class BffClient {
     final json = await _getJson(
       '/proxy/hotel8-upsell/v1/offers/for-reservation?reservation_id=${Uri.encodeComponent(stayId)}',
     );
-    final list =
-        json['offers'] as List<dynamic>? ??
+    final list = json['offers'] as List<dynamic>? ??
         json['data'] as List<dynamic>? ??
         const [];
     return list
@@ -425,8 +423,7 @@ class BffClient {
     final json = await _getJson(
       '/proxy/hotel8-loyalty/v1/members/$memberId/transactions',
     );
-    final list =
-        json['transactions'] as List<dynamic>? ??
+    final list = json['transactions'] as List<dynamic>? ??
         json['data'] as List<dynamic>? ??
         const [];
     return list
@@ -457,8 +454,7 @@ class BffClient {
     final json = await _getJson(
       '/proxy/hotel8-loyalty/v1/members/$memberId/rewards',
     );
-    final list =
-        (json['rewards'] as List<dynamic>?) ??
+    final list = (json['rewards'] as List<dynamic>?) ??
         (json['items'] as List<dynamic>?) ??
         const [];
     return list.map((e) => Reward.fromJson(e as Map<String, dynamic>)).toList();

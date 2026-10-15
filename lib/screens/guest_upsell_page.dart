@@ -302,15 +302,15 @@ class _OfferCard extends StatelessWidget {
   }
 
   Color _categoryColor(UpsellCategory category) => switch (category) {
-    UpsellCategory.roomUpgrade => Colors.purple,
-    UpsellCategory.spa => Colors.pink,
-    UpsellCategory.dining => Colors.deepOrange,
-    UpsellCategory.experience => Colors.amber,
-    UpsellCategory.lateCheckout => Colors.indigo,
-    UpsellCategory.earlyCheckIn => Colors.teal,
-    UpsellCategory.parking => Colors.blueGrey,
-    UpsellCategory.breakfast => Colors.brown,
-  };
+        UpsellCategory.roomUpgrade => Colors.purple,
+        UpsellCategory.spa => Colors.pink,
+        UpsellCategory.dining => Colors.deepOrange,
+        UpsellCategory.experience => Colors.amber,
+        UpsellCategory.lateCheckout => Colors.indigo,
+        UpsellCategory.earlyCheckIn => Colors.teal,
+        UpsellCategory.parking => Colors.blueGrey,
+        UpsellCategory.breakfast => Colors.brown,
+      };
 
   IconData _categoryIcon(UpsellCategory category) => category.icon;
 }

@@ -68,8 +68,7 @@ class _RewardsPanelState extends State<RewardsPanel> {
           '/proxy/hotel8-loyalty/v1/members/$_memberId/rewards',
         );
         _balance = (json['points_balance'] as num?)?.toInt() ?? 0;
-        final list =
-            (json['rewards'] as List<dynamic>?) ??
+        final list = (json['rewards'] as List<dynamic>?) ??
             (json['items'] as List<dynamic>?) ??
             const [];
         _rewards = list
@@ -159,12 +158,14 @@ class _RewardsPanelState extends State<RewardsPanel> {
                 Card(
                   margin: const EdgeInsets.only(bottom: 8),
                   child: ListTile(
-                    leading: Icon(switch (r.category) {
-                      'DINING' => Icons.restaurant,
-                      'SPA' => Icons.spa,
-                      'STAY' => Icons.hotel,
-                      _ => Icons.card_giftcard,
-                    }, color: r.redeemable ? Colors.amber : Colors.grey),
+                    leading: Icon(
+                        switch (r.category) {
+                          'DINING' => Icons.restaurant,
+                          'SPA' => Icons.spa,
+                          'STAY' => Icons.hotel,
+                          _ => Icons.card_giftcard,
+                        },
+                        color: r.redeemable ? Colors.amber : Colors.grey),
                     title: Text(r.name),
                     subtitle: Text(
                       '${r.pointsCost} pts${r.redeemable ? '' : ' — need more points'}',
@@ -231,7 +232,8 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
               controller: tokenCtrl,
               decoration: const InputDecoration(
                 labelText: 'Card token',
-                helperText: 'Your card is tokenized by Payments — the app stores the token reference only',
+                helperText:
+                    'Your card is tokenized by Payments — the app stores the token reference only',
               ),
             ),
           ],

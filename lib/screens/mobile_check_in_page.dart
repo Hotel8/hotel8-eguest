@@ -49,11 +49,11 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
   }
 
   List<_CheckInStep> _buildSteps() => [
-    _CheckInStep(title: 'Verify Identity', icon: Icons.badge),
-    _CheckInStep(title: 'Upload ID', icon: Icons.document_scanner),
-    _CheckInStep(title: 'Select Room', icon: Icons.meeting_room),
-    _CheckInStep(title: 'Digital Key', icon: Icons.key),
-  ];
+        _CheckInStep(title: 'Verify Identity', icon: Icons.badge),
+        _CheckInStep(title: 'Upload ID', icon: Icons.document_scanner),
+        _CheckInStep(title: 'Select Room', icon: Icons.meeting_room),
+        _CheckInStep(title: 'Digital Key', icon: Icons.key),
+      ];
 
   @override
   void dispose() {
@@ -153,8 +153,8 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
                         backgroundColor: isDone
                             ? Colors.green
                             : isActive
-                            ? theme.colorScheme.primary
-                            : Colors.grey.shade300,
+                                ? theme.colorScheme.primary
+                                : Colors.grey.shade300,
                         child: isDone
                             ? const Icon(
                                 Icons.check,
@@ -599,29 +599,30 @@ extension StayInfoCopy on StayInfo {
     String? roomNumber,
     String? floorNumber,
     StayStatus? status,
-  }) => StayInfo(
-    id: id,
-    confirmationNumber: confirmationNumber,
-    propertyCode: propertyCode,
-    propertyName: propertyName,
-    propertyAddress: propertyAddress,
-    propertyPhone: propertyPhone,
-    arrivalDate: arrivalDate,
-    departureDate: departureDate,
-    numberOfNights: numberOfNights,
-    numberOfGuests: numberOfGuests,
-    numberOfRooms: numberOfRooms,
-    roomTypeCode: roomTypeCode,
-    roomTypeName: roomTypeName,
-    roomNumber: roomNumber ?? this.roomNumber,
-    floorNumber: floorNumber ?? this.floorNumber,
-    ratePlanName: ratePlanName,
-    rateAmount: rateAmount,
-    currencyCode: currencyCode,
-    status: status ?? this.status,
-    guestId: guestId,
-    guestName: guestName,
-    specialRequests: specialRequests,
-    digitalKeyEligible: digitalKeyEligible,
-  );
+  }) =>
+      StayInfo(
+        id: id,
+        confirmationNumber: confirmationNumber,
+        propertyCode: propertyCode,
+        propertyName: propertyName,
+        propertyAddress: propertyAddress,
+        propertyPhone: propertyPhone,
+        arrivalDate: arrivalDate,
+        departureDate: departureDate,
+        numberOfNights: numberOfNights,
+        numberOfGuests: numberOfGuests,
+        numberOfRooms: numberOfRooms,
+        roomTypeCode: roomTypeCode,
+        roomTypeName: roomTypeName,
+        roomNumber: roomNumber ?? this.roomNumber,
+        floorNumber: floorNumber ?? this.floorNumber,
+        ratePlanName: ratePlanName,
+        rateAmount: rateAmount,
+        currencyCode: currencyCode,
+        status: status ?? this.status,
+        guestId: guestId,
+        guestName: guestName,
+        specialRequests: specialRequests,
+        digitalKeyEligible: digitalKeyEligible,
+      );
 }
