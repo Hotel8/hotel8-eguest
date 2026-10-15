@@ -69,16 +69,14 @@ class _DigitalKeyPageState extends State<DigitalKeyPage> {
     try {
       await widget.client.deactivateDigitalKey(key.id);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Key deactivated.')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Key deactivated.')));
         _refresh();
       }
     } on BffException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Failed: ${e.message}')));
       }
     }
   }
@@ -107,13 +105,22 @@ class _DigitalKeyPageState extends State<DigitalKeyPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 48,
+                    ),
                     const SizedBox(height: 8),
-                    Text(snap.error is BffException
-                        ? (snap.error as BffException).message
-                        : '${snap.error}'),
+                    Text(
+                      snap.error is BffException
+                          ? (snap.error as BffException).message
+                          : '${snap.error}',
+                    ),
                     const SizedBox(height: 12),
-                    FilledButton(onPressed: _refresh, child: const Text('Retry')),
+                    FilledButton(
+                      onPressed: _refresh,
+                      child: const Text('Retry'),
+                    ),
                   ],
                 ),
               );
@@ -131,14 +138,16 @@ class _DigitalKeyPageState extends State<DigitalKeyPage> {
             return ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                ...keys.map((dk) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: _KeyCard(
-                        digitalKey: dk,
-                        onUnlock: () => _unlockDoor(dk),
-                        onDeactivate: () => _deactivateKey(dk),
-                      ),
-                    )),
+                ...keys.map(
+                  (dk) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: _KeyCard(
+                      digitalKey: dk,
+                      onUnlock: () => _unlockDoor(dk),
+                      onDeactivate: () => _deactivateKey(dk),
+                    ),
+                  ),
+                ),
                 if (widget.stay.digitalKeyEligible)
                   Card(
                     child: ListTile(
@@ -151,9 +160,9 @@ class _DigitalKeyPageState extends State<DigitalKeyPage> {
                       onTap: _activating
                           ? null
                           : () => _activateKey(
-                                widget.stay.roomNumber ??
-                                    widget.stay.roomTypeName,
-                              ),
+                              widget.stay.roomNumber ??
+                                  widget.stay.roomTypeName,
+                            ),
                     ),
                   ),
               ],
@@ -186,9 +195,11 @@ class _NoKeysView extends StatelessWidget {
         const SizedBox(height: 40),
         Icon(Icons.nfc, size: 80, color: Colors.green.shade300),
         const SizedBox(height: 16),
-        const Text('No Digital Keys Active',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+        const Text(
+          'No Digital Keys Active',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
         const SizedBox(height: 8),
         Text(
           'Activate a digital key for ${stay.propertyName} to unlock your '
@@ -202,8 +213,12 @@ class _NoKeysView extends StatelessWidget {
             onPressed: activating ? null : onActivate,
             icon: activating
                 ? const SizedBox(
-                    width: 18, height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
                   )
                 : const Icon(Icons.key),
             label: Text(activating ? 'Activating...' : 'Activate Digital Key'),
@@ -266,11 +281,15 @@ class _KeyCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Room ${k.roomNumber}',
-                          style: theme.textTheme.titleLarge),
+                      Text(
+                        'Room ${k.roomNumber}',
+                        style: theme.textTheme.titleLarge,
+                      ),
                       if (k.floorNumber != null)
-                        Text('${k.floorNumber} Floor',
-                            style: theme.textTheme.bodySmall),
+                        Text(
+                          '${k.floorNumber} Floor',
+                          style: theme.textTheme.bodySmall,
+                        ),
                     ],
                   ),
                 ),
@@ -301,13 +320,17 @@ class _KeyCard extends StatelessWidget {
             ),
             if (k.activatedAt != null) ...[
               const SizedBox(height: 4),
-              Text('Activated: ${fmtDate.format(k.activatedAt!)}',
-                  style: theme.textTheme.bodySmall),
+              Text(
+                'Activated: ${fmtDate.format(k.activatedAt!)}',
+                style: theme.textTheme.bodySmall,
+              ),
             ],
             if (k.expiresAt != null) ...[
               const SizedBox(height: 2),
-              Text('Expires: ${fmtDate.format(k.expiresAt!)}',
-                  style: theme.textTheme.bodySmall),
+              Text(
+                'Expires: ${fmtDate.format(k.expiresAt!)}',
+                style: theme.textTheme.bodySmall,
+              ),
             ],
             const SizedBox(height: 16),
             if (isActive)

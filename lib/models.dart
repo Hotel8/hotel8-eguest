@@ -27,9 +27,9 @@ enum StayStatus {
   noShow;
 
   static StayStatus fromString(String s) => StayStatus.values.firstWhere(
-        (e) => e.name.toLowerCase() == s.toLowerCase().replaceAll('_', ''),
-        orElse: () => StayStatus.confirmed,
-      );
+    (e) => e.name.toLowerCase() == s.toLowerCase().replaceAll('_', ''),
+    orElse: () => StayStatus.confirmed,
+  );
 
   String get label {
     switch (this) {
@@ -109,60 +109,60 @@ class StayInfo {
   });
 
   factory StayInfo.fromJson(Map<String, dynamic> json) => StayInfo(
-        id: json['id'] as String,
-        confirmationNumber: json['confirmation_number'] as String? ?? '',
-        propertyCode: json['property_code'] as String,
-        propertyName: json['property_name'] as String? ?? '',
-        propertyAddress: json['property_address'] as String?,
-        propertyPhone: json['property_phone'] as String?,
-        arrivalDate:
-            DateTime.tryParse(json['arrival_date'] as String? ?? '') ??
-                DateTime.now(),
-        departureDate:
-            DateTime.tryParse(json['departure_date'] as String? ?? '') ??
-                DateTime.now(),
-        numberOfNights: (json['number_of_nights'] as num?)?.toInt() ?? 1,
-        numberOfGuests: (json['number_of_guests'] as num?)?.toInt() ?? 1,
-        numberOfRooms: (json['number_of_rooms'] as num?)?.toInt() ?? 1,
-        roomTypeCode: json['room_type_code'] as String? ?? '',
-        roomTypeName: json['room_type_name'] as String? ?? '',
-        roomNumber: json['room_number'] as String?,
-        floorNumber: json['floor_number'] as String?,
-        ratePlanName: json['rate_plan_name'] as String? ?? '',
-        rateAmount: (json['rate_amount'] as num?)?.toDouble() ?? 0.0,
-        currencyCode: json['currency_code'] as String? ?? 'USD',
-        status: StayStatus.fromString(json['status'] as String? ?? 'confirmed'),
-        guestId: json['guest_id'] as String?,
-        guestName: json['guest_name'] as String? ?? '',
-        specialRequests: json['special_requests'] as String?,
-        digitalKeyEligible: json['digital_key_eligible'] as bool? ?? false,
-      );
+    id: json['id'] as String,
+    confirmationNumber: json['confirmation_number'] as String? ?? '',
+    propertyCode: json['property_code'] as String,
+    propertyName: json['property_name'] as String? ?? '',
+    propertyAddress: json['property_address'] as String?,
+    propertyPhone: json['property_phone'] as String?,
+    arrivalDate:
+        DateTime.tryParse(json['arrival_date'] as String? ?? '') ??
+        DateTime.now(),
+    departureDate:
+        DateTime.tryParse(json['departure_date'] as String? ?? '') ??
+        DateTime.now(),
+    numberOfNights: (json['number_of_nights'] as num?)?.toInt() ?? 1,
+    numberOfGuests: (json['number_of_guests'] as num?)?.toInt() ?? 1,
+    numberOfRooms: (json['number_of_rooms'] as num?)?.toInt() ?? 1,
+    roomTypeCode: json['room_type_code'] as String? ?? '',
+    roomTypeName: json['room_type_name'] as String? ?? '',
+    roomNumber: json['room_number'] as String?,
+    floorNumber: json['floor_number'] as String?,
+    ratePlanName: json['rate_plan_name'] as String? ?? '',
+    rateAmount: (json['rate_amount'] as num?)?.toDouble() ?? 0.0,
+    currencyCode: json['currency_code'] as String? ?? 'USD',
+    status: StayStatus.fromString(json['status'] as String? ?? 'confirmed'),
+    guestId: json['guest_id'] as String?,
+    guestName: json['guest_name'] as String? ?? '',
+    specialRequests: json['special_requests'] as String?,
+    digitalKeyEligible: json['digital_key_eligible'] as bool? ?? false,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'confirmation_number': confirmationNumber,
-        'property_code': propertyCode,
-        'property_name': propertyName,
-        'property_address': propertyAddress,
-        'property_phone': propertyPhone,
-        'arrival_date': _dateStr(arrivalDate),
-        'departure_date': _dateStr(departureDate),
-        'number_of_nights': numberOfNights,
-        'number_of_guests': numberOfGuests,
-        'number_of_rooms': numberOfRooms,
-        'room_type_code': roomTypeCode,
-        'room_type_name': roomTypeName,
-        'room_number': roomNumber,
-        'floor_number': floorNumber,
-        'rate_plan_name': ratePlanName,
-        'rate_amount': rateAmount,
-        'currency_code': currencyCode,
-        'status': status.name,
-        'guest_id': guestId,
-        'guest_name': guestName,
-        'special_requests': specialRequests,
-        'digital_key_eligible': digitalKeyEligible,
-      };
+    'id': id,
+    'confirmation_number': confirmationNumber,
+    'property_code': propertyCode,
+    'property_name': propertyName,
+    'property_address': propertyAddress,
+    'property_phone': propertyPhone,
+    'arrival_date': _dateStr(arrivalDate),
+    'departure_date': _dateStr(departureDate),
+    'number_of_nights': numberOfNights,
+    'number_of_guests': numberOfGuests,
+    'number_of_rooms': numberOfRooms,
+    'room_type_code': roomTypeCode,
+    'room_type_name': roomTypeName,
+    'room_number': roomNumber,
+    'floor_number': floorNumber,
+    'rate_plan_name': ratePlanName,
+    'rate_amount': rateAmount,
+    'currency_code': currencyCode,
+    'status': status.name,
+    'guest_id': guestId,
+    'guest_name': guestName,
+    'special_requests': specialRequests,
+    'digital_key_eligible': digitalKeyEligible,
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -191,18 +191,19 @@ class RoomInfo {
   });
 
   factory RoomInfo.fromJson(Map<String, dynamic> json) => RoomInfo(
-        roomNumber: json['room_number'] as String? ?? '',
-        floorNumber: json['floor_number'] as String? ?? '',
-        roomTypeCode: json['room_type_code'] as String? ?? '',
-        roomTypeName: json['room_type_name'] as String? ?? '',
-        smoking: json['smoking'] as bool? ?? false,
-        amenities: (json['amenities'] as List<dynamic>?)
-                ?.map((e) => Amenity.fromJson(e as Map<String, dynamic>))
-                .toList() ??
-            const [],
-        wifiNetwork: json['wifi_network'] as String?,
-        wifiPassword: json['wifi_password'] as String?,
-      );
+    roomNumber: json['room_number'] as String? ?? '',
+    floorNumber: json['floor_number'] as String? ?? '',
+    roomTypeCode: json['room_type_code'] as String? ?? '',
+    roomTypeName: json['room_type_name'] as String? ?? '',
+    smoking: json['smoking'] as bool? ?? false,
+    amenities:
+        (json['amenities'] as List<dynamic>?)
+            ?.map((e) => Amenity.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+    wifiNetwork: json['wifi_network'] as String?,
+    wifiPassword: json['wifi_password'] as String?,
+  );
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -223,11 +224,11 @@ class Amenity {
   });
 
   factory Amenity.fromJson(Map<String, dynamic> json) => Amenity(
-        code: json['code'] as String,
-        name: json['name'] as String? ?? '',
-        description: json['description'] as String?,
-        icon: json['icon'] as String?,
-      );
+    code: json['code'] as String,
+    name: json['name'] as String? ?? '',
+    description: json['description'] as String?,
+    icon: json['icon'] as String?,
+  );
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -292,12 +293,12 @@ enum ServiceRequestStatus {
       );
 
   String get label => switch (this) {
-        ServiceRequestStatus.submitted => 'Submitted',
-        ServiceRequestStatus.acknowledged => 'Acknowledged',
-        ServiceRequestStatus.inProgress => 'In Progress',
-        ServiceRequestStatus.completed => 'Completed',
-        ServiceRequestStatus.cancelled => 'Cancelled',
-      };
+    ServiceRequestStatus.submitted => 'Submitted',
+    ServiceRequestStatus.acknowledged => 'Acknowledged',
+    ServiceRequestStatus.inProgress => 'In Progress',
+    ServiceRequestStatus.completed => 'Completed',
+    ServiceRequestStatus.cancelled => 'Cancelled',
+  };
 }
 
 class ServiceRequest {
@@ -332,38 +333,40 @@ class ServiceRequest {
   });
 
   factory ServiceRequest.fromJson(Map<String, dynamic> json) => ServiceRequest(
-        id: json['id'] as String,
-        stayId: json['stay_id'] as String? ?? '',
-        reservationId: json['reservation_id'] as String?,
-        roomNumber: json['room_number'] as String?,
-        type: ServiceRequestType.fromString(
-            json['type'] as String? ?? 'housekeeping'),
-        subject: json['subject'] as String? ?? '',
-        description: json['description'] as String? ?? '',
-        status: ServiceRequestStatus.fromString(
-            json['status'] as String? ?? 'submitted'),
-        createdAt:
-            DateTime.tryParse(json['created_at'] as String? ?? '') ??
-                DateTime.now(),
-        updatedAt: json['updated_at'] != null
-            ? DateTime.tryParse(json['updated_at'] as String)
-            : null,
-        scheduledFor: json['scheduled_for'] != null
-            ? DateTime.tryParse(json['scheduled_for'] as String)
-            : null,
-        assignedTo: json['assigned_to'] as String?,
-        staffNote: json['staff_note'] as String?,
-      );
+    id: json['id'] as String,
+    stayId: json['stay_id'] as String? ?? '',
+    reservationId: json['reservation_id'] as String?,
+    roomNumber: json['room_number'] as String?,
+    type: ServiceRequestType.fromString(
+      json['type'] as String? ?? 'housekeeping',
+    ),
+    subject: json['subject'] as String? ?? '',
+    description: json['description'] as String? ?? '',
+    status: ServiceRequestStatus.fromString(
+      json['status'] as String? ?? 'submitted',
+    ),
+    createdAt:
+        DateTime.tryParse(json['created_at'] as String? ?? '') ??
+        DateTime.now(),
+    updatedAt: json['updated_at'] != null
+        ? DateTime.tryParse(json['updated_at'] as String)
+        : null,
+    scheduledFor: json['scheduled_for'] != null
+        ? DateTime.tryParse(json['scheduled_for'] as String)
+        : null,
+    assignedTo: json['assigned_to'] as String?,
+    staffNote: json['staff_note'] as String?,
+  );
 
   Map<String, dynamic> toJson() => {
-        'stay_id': stayId,
-        'reservation_id': reservationId,
-        'room_number': roomNumber,
-        'type': type.name,
-        'subject': subject,
-        'description': description,
-        if (scheduledFor != null) 'scheduled_for': _dateStr(scheduledFor!),
-      };
+    'stay_id': stayId,
+    'reservation_id': reservationId,
+    'room_number': roomNumber,
+    'type': type.name,
+    'subject': subject,
+    'description': description,
+    if (scheduledFor != null) 'scheduled_for': _dateStr(scheduledFor!),
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -393,7 +396,8 @@ class Message {
     this.direction = MessageDirection.incoming,
   });
 
-  factory Message.fromJson(Map<String, dynamic> json, {
+  factory Message.fromJson(
+    Map<String, dynamic> json, {
     String? currentGuestId,
   }) {
     final role = json['sender_role'] as String? ?? 'front_desk';
@@ -413,10 +417,10 @@ class Message {
   }
 
   Map<String, dynamic> toJson() => {
-        'stay_id': stayId,
-        'sender_role': senderRole,
-        'body': body,
-      };
+    'stay_id': stayId,
+    'sender_role': senderRole,
+    'body': body,
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -433,11 +437,11 @@ extension DigitalKeyStatusX on DigitalKeyStatus {
       );
 
   String get label => switch (this) {
-        DigitalKeyStatus.inactive => 'Inactive',
-        DigitalKeyStatus.active => 'Active',
-        DigitalKeyStatus.expired => 'Expired',
-        DigitalKeyStatus.revoked => 'Revoked',
-      };
+    DigitalKeyStatus.inactive => 'Inactive',
+    DigitalKeyStatus.active => 'Active',
+    DigitalKeyStatus.expired => 'Expired',
+    DigitalKeyStatus.revoked => 'Revoked',
+  };
 }
 
 class DigitalKey {
@@ -464,21 +468,22 @@ class DigitalKey {
   });
 
   factory DigitalKey.fromJson(Map<String, dynamic> json) => DigitalKey(
-        id: json['id'] as String,
-        stayId: json['stay_id'] as String? ?? '',
-        roomNumber: json['room_number'] as String? ?? '',
-        floorNumber: json['floor_number'] as String?,
-        keyType: json['key_type'] as String? ?? 'ble',
-        status: DigitalKeyStatusX.fromString(
-            json['status'] as String? ?? 'inactive'),
-        activatedAt: json['activated_at'] != null
-            ? DateTime.tryParse(json['activated_at'] as String)
-            : null,
-        expiresAt: json['expires_at'] != null
-            ? DateTime.tryParse(json['expires_at'] as String)
-            : null,
-        lockSystem: json['lock_system'] as String?,
-      );
+    id: json['id'] as String,
+    stayId: json['stay_id'] as String? ?? '',
+    roomNumber: json['room_number'] as String? ?? '',
+    floorNumber: json['floor_number'] as String?,
+    keyType: json['key_type'] as String? ?? 'ble',
+    status: DigitalKeyStatusX.fromString(
+      json['status'] as String? ?? 'inactive',
+    ),
+    activatedAt: json['activated_at'] != null
+        ? DateTime.tryParse(json['activated_at'] as String)
+        : null,
+    expiresAt: json['expires_at'] != null
+        ? DateTime.tryParse(json['expires_at'] as String)
+        : null,
+    lockSystem: json['lock_system'] as String?,
+  );
 
   bool get isActive => status == DigitalKeyStatus.active;
 }
@@ -504,36 +509,35 @@ enum UpsellCategory {
       );
 
   String get label => switch (this) {
-        UpsellCategory.roomUpgrade => 'Room Upgrade',
-        UpsellCategory.spa => 'Spa',
-        UpsellCategory.dining => 'Dining',
-        UpsellCategory.experience => 'Experience',
-        UpsellCategory.lateCheckout => 'Late Check-Out',
-        UpsellCategory.earlyCheckIn => 'Early Check-In',
-        UpsellCategory.parking => 'Parking',
-        UpsellCategory.breakfast => 'Breakfast',
-      };
+    UpsellCategory.roomUpgrade => 'Room Upgrade',
+    UpsellCategory.spa => 'Spa',
+    UpsellCategory.dining => 'Dining',
+    UpsellCategory.experience => 'Experience',
+    UpsellCategory.lateCheckout => 'Late Check-Out',
+    UpsellCategory.earlyCheckIn => 'Early Check-In',
+    UpsellCategory.parking => 'Parking',
+    UpsellCategory.breakfast => 'Breakfast',
+  };
 
   IconData get icon => switch (this) {
-        UpsellCategory.roomUpgrade => Icons.upgrade,
-        UpsellCategory.spa => Icons.spa,
-        UpsellCategory.dining => Icons.restaurant,
-        UpsellCategory.experience => Icons.celebration,
-        UpsellCategory.lateCheckout => Icons.schedule,
-        UpsellCategory.earlyCheckIn => Icons.login,
-        UpsellCategory.parking => Icons.local_parking,
-        UpsellCategory.breakfast => Icons.free_breakfast,
-      };
+    UpsellCategory.roomUpgrade => Icons.upgrade,
+    UpsellCategory.spa => Icons.spa,
+    UpsellCategory.dining => Icons.restaurant,
+    UpsellCategory.experience => Icons.celebration,
+    UpsellCategory.lateCheckout => Icons.schedule,
+    UpsellCategory.earlyCheckIn => Icons.login,
+    UpsellCategory.parking => Icons.local_parking,
+    UpsellCategory.breakfast => Icons.free_breakfast,
+  };
 }
 
 enum OfferStatus { available, accepted, declined, expired }
 
 extension OfferStatusX on OfferStatus {
-  static OfferStatus fromString(String s) =>
-      OfferStatus.values.firstWhere(
-        (e) => e.name.toLowerCase() == s.toLowerCase(),
-        orElse: () => OfferStatus.available,
-      );
+  static OfferStatus fromString(String s) => OfferStatus.values.firstWhere(
+    (e) => e.name.toLowerCase() == s.toLowerCase(),
+    orElse: () => OfferStatus.available,
+  );
 }
 
 class UpsellOffer {
@@ -566,28 +570,25 @@ class UpsellOffer {
   });
 
   factory UpsellOffer.fromJson(Map<String, dynamic> json) => UpsellOffer(
-        id: json['id'] as String,
-        stayId: json['stay_id'] as String? ?? '',
-        title: json['title'] as String? ?? '',
-        description: json['description'] as String? ?? '',
-        category: UpsellCategory.fromString(
-            json['category'] as String? ?? 'room_upgrade'),
-        price: (json['price'] as num?)?.toDouble() ?? 0.0,
-        currencyCode: json['currency_code'] as String? ?? 'USD',
-        imageUrl: json['image_url'] as String?,
-        roomTypeFrom: json['room_type_from'] as String?,
-        roomTypeTo: json['room_type_to'] as String?,
-        status: OfferStatusX.fromString(
-            json['status'] as String? ?? 'available'),
-        validUntil: json['valid_until'] != null
-            ? DateTime.tryParse(json['valid_until'] as String)
-            : null,
-      );
+    id: json['id'] as String,
+    stayId: json['stay_id'] as String? ?? '',
+    title: json['title'] as String? ?? '',
+    description: json['description'] as String? ?? '',
+    category: UpsellCategory.fromString(
+      json['category'] as String? ?? 'room_upgrade',
+    ),
+    price: (json['price'] as num?)?.toDouble() ?? 0.0,
+    currencyCode: json['currency_code'] as String? ?? 'USD',
+    imageUrl: json['image_url'] as String?,
+    roomTypeFrom: json['room_type_from'] as String?,
+    roomTypeTo: json['room_type_to'] as String?,
+    status: OfferStatusX.fromString(json['status'] as String? ?? 'available'),
+    validUntil: json['valid_until'] != null
+        ? DateTime.tryParse(json['valid_until'] as String)
+        : null,
+  );
 
-  Map<String, dynamic> toJson() => {
-        'stay_id': stayId,
-        'offer_id': id,
-      };
+  Map<String, dynamic> toJson() => {'stay_id': stayId, 'offer_id': id};
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -612,14 +613,13 @@ class FolioItem {
   });
 
   factory FolioItem.fromJson(Map<String, dynamic> json) => FolioItem(
-        id: json['id'] as String,
-        date: DateTime.tryParse(json['date'] as String? ?? '') ??
-            DateTime.now(),
-        description: json['description'] as String? ?? '',
-        amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
-        currencyCode: json['currency_code'] as String? ?? 'USD',
-        category: json['category'] as String? ?? 'other',
-      );
+    id: json['id'] as String,
+    date: DateTime.tryParse(json['date'] as String? ?? '') ?? DateTime.now(),
+    description: json['description'] as String? ?? '',
+    amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+    currencyCode: json['currency_code'] as String? ?? 'USD',
+    category: json['category'] as String? ?? 'other',
+  );
 }
 
 class Folio {
@@ -640,19 +640,21 @@ class Folio {
   });
 
   factory Folio.fromJson(Map<String, dynamic> json) => Folio(
-        id: json['id'] as String,
-        stayId: json['stay_id'] as String? ?? '',
-        charges: (json['charges'] as List<dynamic>?)
-                ?.map((e) => FolioItem.fromJson(e as Map<String, dynamic>))
-                .toList() ??
-            const [],
-        payments: (json['payments'] as List<dynamic>?)
-                ?.map((e) => FolioItem.fromJson(e as Map<String, dynamic>))
-                .toList() ??
-            const [],
-        balance: (json['balance'] as num?)?.toDouble() ?? 0.0,
-        currencyCode: json['currency_code'] as String? ?? 'USD',
-      );
+    id: json['id'] as String,
+    stayId: json['stay_id'] as String? ?? '',
+    charges:
+        (json['charges'] as List<dynamic>?)
+            ?.map((e) => FolioItem.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+    payments:
+        (json['payments'] as List<dynamic>?)
+            ?.map((e) => FolioItem.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+    balance: (json['balance'] as num?)?.toDouble() ?? 0.0,
+    currencyCode: json['currency_code'] as String? ?? 'USD',
+  );
 
   double get totalCharges =>
       charges.fold(0.0, (sum, item) => sum + item.amount);
@@ -698,38 +700,38 @@ class GuestProfile {
   });
 
   factory GuestProfile.fromJson(Map<String, dynamic> json) => GuestProfile(
-        id: json['id'] as String,
-        firstName: json['first_name'] as String? ?? '',
-        lastName: json['last_name'] as String? ?? '',
-        email: json['email'] as String? ?? '',
-        phone: json['phone'] as String?,
-        countryCode: json['country_code'] as String?,
-        loyaltyNumber: json['loyalty_number'] as String?,
-        loyaltyTier: json['loyalty_tier'] as String?,
-        preferences:
-            (json['preferences'] as List<dynamic>?)?.cast<String>() ?? const [],
-        idType: json['id_type'] as String?,
-        idNumber: json['id_number'] as String?,
-        dateOfBirth: json['date_of_birth'] != null
-            ? DateTime.tryParse(json['date_of_birth'] as String)
-            : null,
-        preferredLanguage: json['preferred_language'] as String?,
-        marketingOptIn: json['marketing_opt_in'] as bool? ?? false,
-      );
+    id: json['id'] as String,
+    firstName: json['first_name'] as String? ?? '',
+    lastName: json['last_name'] as String? ?? '',
+    email: json['email'] as String? ?? '',
+    phone: json['phone'] as String?,
+    countryCode: json['country_code'] as String?,
+    loyaltyNumber: json['loyalty_number'] as String?,
+    loyaltyTier: json['loyalty_tier'] as String?,
+    preferences:
+        (json['preferences'] as List<dynamic>?)?.cast<String>() ?? const [],
+    idType: json['id_type'] as String?,
+    idNumber: json['id_number'] as String?,
+    dateOfBirth: json['date_of_birth'] != null
+        ? DateTime.tryParse(json['date_of_birth'] as String)
+        : null,
+    preferredLanguage: json['preferred_language'] as String?,
+    marketingOptIn: json['marketing_opt_in'] as bool? ?? false,
+  );
 
   Map<String, dynamic> toJson() => {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': email,
-        'phone': phone,
-        'country_code': countryCode,
-        'loyalty_number': loyaltyNumber,
-        'preferences': preferences,
-        'id_type': idType,
-        'id_number': idNumber,
-        'preferred_language': preferredLanguage,
-        'marketing_opt_in': marketingOptIn,
-      };
+    'first_name': firstName,
+    'last_name': lastName,
+    'email': email,
+    'phone': phone,
+    'country_code': countryCode,
+    'loyalty_number': loyaltyNumber,
+    'preferences': preferences,
+    'id_type': idType,
+    'id_number': idNumber,
+    'preferred_language': preferredLanguage,
+    'marketing_opt_in': marketingOptIn,
+  };
 
   String get fullName => '$firstName $lastName';
 }
@@ -758,14 +760,14 @@ class LoyaltyInfo {
   });
 
   factory LoyaltyInfo.fromJson(Map<String, dynamic> json) => LoyaltyInfo(
-        memberId: json['member_id'] as String? ?? json['id'] as String? ?? '',
-        tier: json['tier'] as String? ?? 'Member',
-        currentPoints: (json['current_points'] as num?)?.toInt() ?? 0,
-        lifetimePoints: (json['lifetime_points'] as num?)?.toInt() ?? 0,
-        pointsToNextTier: (json['points_to_next_tier'] as num?)?.toInt() ?? 0,
-        nextTier: json['next_tier'] as String?,
-        currencyCode: json['currency_code'] as String? ?? 'USD',
-      );
+    memberId: json['member_id'] as String? ?? json['id'] as String? ?? '',
+    tier: json['tier'] as String? ?? 'Member',
+    currentPoints: (json['current_points'] as num?)?.toInt() ?? 0,
+    lifetimePoints: (json['lifetime_points'] as num?)?.toInt() ?? 0,
+    pointsToNextTier: (json['points_to_next_tier'] as num?)?.toInt() ?? 0,
+    nextTier: json['next_tier'] as String?,
+    currencyCode: json['currency_code'] as String? ?? 'USD',
+  );
 }
 
 class LoyaltyTransaction {
@@ -786,8 +788,8 @@ class LoyaltyTransaction {
   factory LoyaltyTransaction.fromJson(Map<String, dynamic> json) =>
       LoyaltyTransaction(
         id: json['id'] as String,
-        date: DateTime.tryParse(json['date'] as String? ?? '') ??
-            DateTime.now(),
+        date:
+            DateTime.tryParse(json['date'] as String? ?? '') ?? DateTime.now(),
         description: json['description'] as String? ?? '',
         points: (json['points'] as num?)?.toInt() ?? 0,
         type: json['type'] as String? ?? 'earn',
@@ -818,14 +820,14 @@ class PreCheckInRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'reservation_id': reservationId,
-        'id_type': idType,
-        'id_number': idNumber,
-        'id_image_url': idImageUrl,
-        'estimated_arrival_time': estimatedArrivalTime?.toIso8601String(),
-        'special_requests': specialRequests,
-        'opt_in_digital_key': optInDigitalKey,
-      };
+    'reservation_id': reservationId,
+    'id_type': idType,
+    'id_number': idNumber,
+    'id_image_url': idImageUrl,
+    'estimated_arrival_time': estimatedArrivalTime?.toIso8601String(),
+    'special_requests': specialRequests,
+    'opt_in_digital_key': optInDigitalKey,
+  };
 }
 
 class CheckInRequest {
@@ -840,10 +842,10 @@ class CheckInRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'reservation_id': reservationId,
-        'room_number': roomNumber,
-        'activate_digital_key': activateDigitalKey,
-      };
+    'reservation_id': reservationId,
+    'room_number': roomNumber,
+    'activate_digital_key': activateDigitalKey,
+  };
 }
 
 class CheckOutRequest {
@@ -860,11 +862,11 @@ class CheckOutRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'stay_id': stayId,
-        'payment_method_token': paymentMethodToken,
-        'email_receipt': emailReceipt,
-        'email': email,
-      };
+    'stay_id': stayId,
+    'payment_method_token': paymentMethodToken,
+    'email_receipt': emailReceipt,
+    'email': email,
+  };
 }
 
 class StayRating {
@@ -885,13 +887,13 @@ class StayRating {
   });
 
   Map<String, dynamic> toJson() => {
-        'stay_id': stayId,
-        'overall_score': overallScore,
-        'cleanliness_score': cleanlinessScore,
-        'service_score': serviceScore,
-        'location_score': locationScore,
-        'comment': comment,
-      };
+    'stay_id': stayId,
+    'overall_score': overallScore,
+    'cleanliness_score': cleanlinessScore,
+    'service_score': serviceScore,
+    'location_score': locationScore,
+    'comment': comment,
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -926,15 +928,15 @@ class Reward {
   });
 
   factory Reward.fromJson(Map<String, dynamic> json) => Reward(
-        id: json['id'] as String,
-        itemCode: json['item_code'] as String? ?? '',
-        name: json['item_name'] as String? ?? json['name'] as String? ?? '',
-        description: json['description'] as String?,
-        pointsCost: (json['points_cost'] as num?)?.toInt() ?? 0,
-        category: json['category'] as String? ?? 'GENERAL',
-        rewardType: json['reward_type'] as String? ?? 'VOUCHER',
-        redeemable: json['redeemable'] as bool? ?? false,
-      );
+    id: json['id'] as String,
+    itemCode: json['item_code'] as String? ?? '',
+    name: json['item_name'] as String? ?? json['name'] as String? ?? '',
+    description: json['description'] as String?,
+    pointsCost: (json['points_cost'] as num?)?.toInt() ?? 0,
+    category: json['category'] as String? ?? 'GENERAL',
+    rewardType: json['reward_type'] as String? ?? 'VOUCHER',
+    redeemable: json['redeemable'] as bool? ?? false,
+  );
 }
 
 /// A redemption outcome — a voucher code the guest can present at the desk.
@@ -1010,7 +1012,8 @@ class RoomServiceMenuItem {
         id: json['id'] as String,
         name: json['name'] as String? ?? '',
         description: json['description'] as String? ?? '',
-        price: (json['price'] as num?)?.toDouble() ??
+        price:
+            (json['price'] as num?)?.toDouble() ??
             double.tryParse(json['price'] as String? ?? '') ??
             0.0,
         category: json['category'] as String? ?? '',
@@ -1040,8 +1043,9 @@ class RoomServiceOrder {
         status: json['status'] as String? ?? 'OPEN',
         total: json['total'] as String? ?? '0',
         lines: ((json['items'] as List<dynamic>?) ?? const [])
-            .map((e) =>
-                RoomServiceOrderLine.fromJson(e as Map<String, dynamic>))
+            .map(
+              (e) => RoomServiceOrderLine.fromJson(e as Map<String, dynamic>),
+            )
             .toList(),
       );
 }

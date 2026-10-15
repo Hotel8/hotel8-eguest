@@ -60,21 +60,23 @@ class _GuestMessagingPageState extends State<GuestMessagingPage> {
     setState(() => _sending = true);
     _inputController.clear();
     try {
-      await widget.client.sendMessage(Message(
-        id: '',
-        stayId: widget.stayId,
-        senderName: widget.guestName,
-        senderRole: 'guest',
-        body: text,
-        sentAt: DateTime.now(),
-        direction: MessageDirection.outgoing,
-      ));
+      await widget.client.sendMessage(
+        Message(
+          id: '',
+          stayId: widget.stayId,
+          senderName: widget.guestName,
+          senderRole: 'guest',
+          body: text,
+          sentAt: DateTime.now(),
+          direction: MessageDirection.outgoing,
+        ),
+      );
       _refresh();
     } on BffException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send: ${e.message}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to send: ${e.message}')));
       }
     } finally {
       if (mounted) setState(() => _sending = false);
@@ -96,8 +98,10 @@ class _GuestMessagingPageState extends State<GuestMessagingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Front Desk', style: TextStyle(fontSize: 16)),
-                Text('Typically replies in 5 min',
-                    style: TextStyle(fontSize: 12, color: Colors.grey)),
+                Text(
+                  'Typically replies in 5 min',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
               ],
             ),
           ],
@@ -126,11 +130,16 @@ class _GuestMessagingPageState extends State<GuestMessagingPage> {
                       children: [
                         const Icon(Icons.error_outline, color: Colors.red),
                         const SizedBox(height: 8),
-                        Text(snap.error is BffException
-                            ? (snap.error as BffException).message
-                            : '${snap.error}'),
+                        Text(
+                          snap.error is BffException
+                              ? (snap.error as BffException).message
+                              : '${snap.error}',
+                        ),
                         const SizedBox(height: 12),
-                        FilledButton(onPressed: _refresh, child: const Text('Retry')),
+                        FilledButton(
+                          onPressed: _refresh,
+                          child: const Text('Retry'),
+                        ),
                       ],
                     ),
                   );
@@ -173,13 +182,21 @@ class _EmptyChat extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.chat_bubble_outline, size: 64, color: Colors.grey.shade400),
+          Icon(
+            Icons.chat_bubble_outline,
+            size: 64,
+            color: Colors.grey.shade400,
+          ),
           const SizedBox(height: 12),
-          Text('No messages yet',
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 16)),
+          Text(
+            'No messages yet',
+            style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+          ),
           const SizedBox(height: 4),
-          const Text('Start a conversation with the front desk.',
-              style: TextStyle(color: Colors.grey)),
+          const Text(
+            'Start a conversation with the front desk.',
+            style: TextStyle(color: Colors.grey),
+          ),
         ],
       ),
     );
@@ -198,8 +215,9 @@ class _MessageBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
-        mainAxisAlignment:
-            isOutgoing ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isOutgoing
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isOutgoing) ...[
@@ -299,8 +317,10 @@ class _InputBar extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   suffixIcon: sending
                       ? const Padding(
                           padding: EdgeInsets.all(12),

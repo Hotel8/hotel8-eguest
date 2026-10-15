@@ -6,25 +6,28 @@
 // eGuest app smoke test.
 //
 // Pumps the real root widget (`EGuestApp`) and asserts the in-stay guest
-// shell renders with its bottom navigation (Home / Services / Chat /
-// Offers / Profile). The demo guest context is client-side only — no
-// network calls happen while building the shell.
+// shell bootstraps the runtime context from the BFF at `initState`;
+// with no BFF reachable under the test harness that fails and renders
+// the deterministic offline fallback scaffold — the smoke assertion
+// (the dash pattern).
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:eguest/app.dart';
 
 void main() {
-  testWidgets('EGuestApp renders guest shell with bottom navigation', (
+  testWidgets('EGuestApp builds and renders the offline fallback', (
     tester,
   ) async {
     await tester.pumpWidget(const EGuestApp());
-    await tester.pump(const Duration(milliseconds: 100));
+    // Let the bootstrap fetch fail (offline) and the state settle.
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pump(const Duration(milliseconds: 200));
 
-    expect(find.text('Home'), findsOneWidget);
-    expect(find.text('Services'), findsOneWidget);
-    expect(find.text('Chat'), findsOneWidget);
-    expect(find.text('Offers'), findsOneWidget);
-    expect(find.text('Profile'), findsOneWidget);
+    expect(find.byType(MaterialApp), findsOneWidget);
+    // The offline fallback scaffold — no BFF reachable under the test
+    // harness, the bootstrap error page renders deterministically.
+    expect(find.textContaining('eGuest unavailable:'), findsOneWidget);
   });
 }

@@ -49,23 +49,11 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
   }
 
   List<_CheckInStep> _buildSteps() => [
-        _CheckInStep(
-          title: 'Verify Identity',
-          icon: Icons.badge,
-        ),
-        _CheckInStep(
-          title: 'Upload ID',
-          icon: Icons.document_scanner,
-        ),
-        _CheckInStep(
-          title: 'Select Room',
-          icon: Icons.meeting_room,
-        ),
-        _CheckInStep(
-          title: 'Digital Key',
-          icon: Icons.key,
-        ),
-      ];
+    _CheckInStep(title: 'Verify Identity', icon: Icons.badge),
+    _CheckInStep(title: 'Upload ID', icon: Icons.document_scanner),
+    _CheckInStep(title: 'Select Room', icon: Icons.meeting_room),
+    _CheckInStep(title: 'Digital Key', icon: Icons.key),
+  ];
 
   @override
   void dispose() {
@@ -90,25 +78,29 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
     setState(() => _loading = true);
     try {
       // Pre-check-in with identity data
-      await widget.client.preCheckIn(PreCheckInRequest(
-        reservationId: widget.stay.id,
-        idType: _idTypeController.text.trim().isEmpty
-            ? null
-            : _idTypeController.text.trim(),
-        idNumber: _idNumberController.text.trim().isEmpty
-            ? null
-            : _idNumberController.text.trim(),
-        idImageUrl: _idImageUrl,
-        estimatedArrivalTime: _estimatedArrival,
-        optInDigitalKey: _optInDigitalKey,
-      ));
+      await widget.client.preCheckIn(
+        PreCheckInRequest(
+          reservationId: widget.stay.id,
+          idType: _idTypeController.text.trim().isEmpty
+              ? null
+              : _idTypeController.text.trim(),
+          idNumber: _idNumberController.text.trim().isEmpty
+              ? null
+              : _idNumberController.text.trim(),
+          idImageUrl: _idImageUrl,
+          estimatedArrivalTime: _estimatedArrival,
+          optInDigitalKey: _optInDigitalKey,
+        ),
+      );
 
       // Full check-in
-      await widget.client.checkIn(CheckInRequest(
-        reservationId: widget.stay.id,
-        roomNumber: _selectedRoom,
-        activateDigitalKey: _optInDigitalKey,
-      ));
+      await widget.client.checkIn(
+        CheckInRequest(
+          reservationId: widget.stay.id,
+          roomNumber: _selectedRoom,
+          activateDigitalKey: _optInDigitalKey,
+        ),
+      );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -161,10 +153,14 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
                         backgroundColor: isDone
                             ? Colors.green
                             : isActive
-                                ? theme.colorScheme.primary
-                                : Colors.grey.shade300,
+                            ? theme.colorScheme.primary
+                            : Colors.grey.shade300,
                         child: isDone
-                            ? const Icon(Icons.check, size: 18, color: Colors.white)
+                            ? const Icon(
+                                Icons.check,
+                                size: 18,
+                                color: Colors.white,
+                              )
                             : Text(
                                 '${i + 1}',
                                 style: TextStyle(
@@ -223,10 +219,7 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
               child: Row(
                 children: [
                   if (_currentStep > 0)
-                    TextButton(
-                      onPressed: _prev,
-                      child: const Text('Back'),
-                    ),
+                    TextButton(onPressed: _prev, child: const Text('Back')),
                   const Spacer(),
                   if (_isLast)
                     FilledButton.icon(
@@ -238,7 +231,9 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.check_circle),
-                      label: Text(_loading ? 'Processing...' : 'Complete Check-In'),
+                      label: Text(
+                        _loading ? 'Processing...' : 'Complete Check-In',
+                      ),
                     )
                   else
                     FilledButton(
@@ -289,7 +284,8 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
     final time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(
-          _estimatedArrival ?? DateTime.now().add(const Duration(hours: 2))),
+        _estimatedArrival ?? DateTime.now().add(const Duration(hours: 2)),
+      ),
     );
     if (time == null) return;
     final now = DateTime.now();
@@ -334,8 +330,7 @@ class _StepIdentity extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Verify Your Identity',
-            style: theme.textTheme.titleLarge),
+        Text('Verify Your Identity', style: theme.textTheme.titleLarge),
         const SizedBox(height: 8),
         Text(
           'Enter your identification details to complete the registration card.',
@@ -348,7 +343,10 @@ class _StepIdentity extends StatelessWidget {
           label: const Text('ID Type'),
           dropdownMenuEntries: const [
             DropdownMenuEntry(value: 'passport', label: 'Passport'),
-            DropdownMenuEntry(value: 'drivers_license', label: 'Driver License'),
+            DropdownMenuEntry(
+              value: 'drivers_license',
+              label: 'Driver License',
+            ),
             DropdownMenuEntry(value: 'national_id', label: 'National ID'),
           ],
         ),
@@ -392,8 +390,10 @@ class _StepUploadId extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Upload ID Document',
-            style: Theme.of(context).textTheme.titleLarge),
+        Text(
+          'Upload ID Document',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         const SizedBox(height: 8),
         Text(
           'Take a photo of your ID document. This is required for hotel registration.',
@@ -418,7 +418,9 @@ class _StepUploadId extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  idImageUrl != null ? Icons.check_circle : Icons.document_scanner,
+                  idImageUrl != null
+                      ? Icons.check_circle
+                      : Icons.document_scanner,
                   size: 64,
                   color: idImageUrl != null ? Colors.green : Colors.grey,
                 ),
@@ -493,8 +495,9 @@ class _StepSelectRoom extends StatelessWidget {
               leading: const Icon(Icons.info_outline, color: Colors.blue),
               title: const Text('Pre-Assigned Room'),
               subtitle: Text(
-                  'Your room ${stay.roomNumber} has been pre-assigned. '
-                  'You can keep it or choose another above.'),
+                'Your room ${stay.roomNumber} has been pre-assigned. '
+                'You can keep it or choose another above.',
+              ),
             ),
           ),
         ],
@@ -525,8 +528,10 @@ class _StepDigitalKey extends StatelessWidget {
           child: SwitchListTile(
             value: optIn,
             onChanged: onToggle,
-            secondary:
-                Icon(Icons.nfc, color: optIn ? Colors.green : Colors.grey),
+            secondary: Icon(
+              Icons.nfc,
+              color: optIn ? Colors.green : Colors.grey,
+            ),
             title: const Text('Activate Digital Key'),
             subtitle: Text(
               optIn
@@ -549,11 +554,14 @@ class _StepDigitalKey extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Room $roomNumber',
-                            style: theme.textTheme.titleMedium),
+                        Text(
+                          'Room $roomNumber',
+                          style: theme.textTheme.titleMedium,
+                        ),
                         const Text(
-                            'Digital key will be activated after check-in. '
-                            'You can unlock your room with your phone.'),
+                          'Digital key will be activated after check-in. '
+                          'You can unlock your room with your phone.',
+                        ),
                       ],
                     ),
                   ),
@@ -591,30 +599,29 @@ extension StayInfoCopy on StayInfo {
     String? roomNumber,
     String? floorNumber,
     StayStatus? status,
-  }) =>
-      StayInfo(
-        id: id,
-        confirmationNumber: confirmationNumber,
-        propertyCode: propertyCode,
-        propertyName: propertyName,
-        propertyAddress: propertyAddress,
-        propertyPhone: propertyPhone,
-        arrivalDate: arrivalDate,
-        departureDate: departureDate,
-        numberOfNights: numberOfNights,
-        numberOfGuests: numberOfGuests,
-        numberOfRooms: numberOfRooms,
-        roomTypeCode: roomTypeCode,
-        roomTypeName: roomTypeName,
-        roomNumber: roomNumber ?? this.roomNumber,
-        floorNumber: floorNumber ?? this.floorNumber,
-        ratePlanName: ratePlanName,
-        rateAmount: rateAmount,
-        currencyCode: currencyCode,
-        status: status ?? this.status,
-        guestId: guestId,
-        guestName: guestName,
-        specialRequests: specialRequests,
-        digitalKeyEligible: digitalKeyEligible,
-      );
+  }) => StayInfo(
+    id: id,
+    confirmationNumber: confirmationNumber,
+    propertyCode: propertyCode,
+    propertyName: propertyName,
+    propertyAddress: propertyAddress,
+    propertyPhone: propertyPhone,
+    arrivalDate: arrivalDate,
+    departureDate: departureDate,
+    numberOfNights: numberOfNights,
+    numberOfGuests: numberOfGuests,
+    numberOfRooms: numberOfRooms,
+    roomTypeCode: roomTypeCode,
+    roomTypeName: roomTypeName,
+    roomNumber: roomNumber ?? this.roomNumber,
+    floorNumber: floorNumber ?? this.floorNumber,
+    ratePlanName: ratePlanName,
+    rateAmount: rateAmount,
+    currencyCode: currencyCode,
+    status: status ?? this.status,
+    guestId: guestId,
+    guestName: guestName,
+    specialRequests: specialRequests,
+    digitalKeyEligible: digitalKeyEligible,
+  );
 }

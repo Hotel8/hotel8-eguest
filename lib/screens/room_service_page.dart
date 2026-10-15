@@ -63,8 +63,8 @@ class _RoomServicePageState extends State<RoomServicePage> {
     }
   }
 
-  double get _cartTotal => _cart.entries
-      .fold(0.0, (sum, e) => sum + e.key.price * e.value);
+  double get _cartTotal =>
+      _cart.entries.fold(0.0, (sum, e) => sum + e.key.price * e.value);
 
   Future<void> _submit() async {
     if (_cart.isEmpty) return;
@@ -99,8 +99,9 @@ class _RoomServicePageState extends State<RoomServicePage> {
   /// server resolves it when `outlet_id` is omitted from the menu call, but
   /// the order call requires it — read it back from a menu probe.
   Future<String> _roomServiceOutletId() async {
-    final json = await widget.client
-        .getRawJson('/proxy/hotel8-pos/v1/guest/${widget.client.propertyId}/menu');
+    final json = await widget.client.getRawJson(
+      '/proxy/hotel8-pos/v1/guest/${widget.client.propertyId}/menu',
+    );
     return (json['outlet_id'] as String?) ?? '';
   }
 
@@ -115,10 +116,16 @@ class _RoomServicePageState extends State<RoomServicePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.room_service_outlined, size: 64, color: Colors.grey),
+            const Icon(
+              Icons.room_service_outlined,
+              size: 64,
+              color: Colors.grey,
+            ),
             const SizedBox(height: 12),
-            Text('Room service unavailable: $_error',
-                textAlign: TextAlign.center),
+            Text(
+              'Room service unavailable: $_error',
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 12),
             FilledButton(onPressed: _loadMenu, child: const Text('Retry')),
           ],
@@ -138,17 +145,23 @@ class _RoomServicePageState extends State<RoomServicePage> {
                     title: Text(item.name),
                     subtitle: item.description.isEmpty
                         ? null
-                        : Text(item.description,
-                            maxLines: 1, overflow: TextOverflow.ellipsis),
+                        : Text(
+                            item.description,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(NumberFormat.simpleCurrency(decimalDigits: 2)
-                            .format(item.price)),
+                        Text(
+                          NumberFormat.simpleCurrency(decimalDigits: 2)
+                              .format(item.price),
+                        ),
                         IconButton(
                           icon: const Icon(Icons.add_circle_outline),
-                          onPressed: () => setState(() =>
-                              _cart[item] = (_cart[item] ?? 0) + 1),
+                          onPressed: () => setState(
+                            () => _cart[item] = (_cart[item] ?? 0) + 1,
+                          ),
                         ),
                       ],
                     ),
@@ -179,7 +192,8 @@ class _RoomServicePageState extends State<RoomServicePage> {
                         ? const SizedBox(
                             width: 16,
                             height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2))
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : const Text('Order to Room'),
                   ),
                 ],

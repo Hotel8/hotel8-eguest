@@ -86,10 +86,7 @@ class _GuestHomePageState extends State<GuestHomePage> {
               return const Center(child: CircularProgressIndicator());
             }
             if (snap.hasError) {
-              return _ErrorView(
-                error: snap.error!,
-                onRetry: _refresh,
-              );
+              return _ErrorView(error: snap.error!, onRetry: _refresh);
             }
             final stays = snap.data ?? const [];
             if (stays.isEmpty) {
@@ -103,8 +100,7 @@ class _GuestHomePageState extends State<GuestHomePage> {
                 const SizedBox(height: 16),
                 _StaySummaryCard(stay: stay),
                 const SizedBox(height: 16),
-                Text('Quick Actions',
-                    style: theme.textTheme.titleMedium),
+                Text('Quick Actions', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 12),
                 _QuickActionsGrid(stay: stay, client: widget.client),
                 const SizedBox(height: 24),
@@ -143,21 +139,23 @@ class _PropertyHeader extends StatelessWidget {
             CircleAvatar(
               radius: 28,
               backgroundColor: theme.colorScheme.primaryContainer,
-              child: Icon(Icons.hotel, color: theme.colorScheme.onPrimaryContainer),
+              child: Icon(
+                Icons.hotel,
+                color: theme.colorScheme.onPrimaryContainer,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    stay.propertyName,
-                    style: theme.textTheme.titleMedium,
-                  ),
+                  Text(stay.propertyName, style: theme.textTheme.titleMedium),
                   if (stay.propertyAddress != null) ...[
                     const SizedBox(height: 2),
-                    Text(stay.propertyAddress!,
-                        style: theme.textTheme.bodySmall),
+                    Text(
+                      stay.propertyAddress!,
+                      style: theme.textTheme.bodySmall,
+                    ),
                   ],
                   const SizedBox(height: 4),
                   Chip(
@@ -249,10 +247,7 @@ class _QuickActionsGrid extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => MobileCheckInPage(
-                client: client,
-                stay: stay,
-              ),
+              builder: (_) => MobileCheckInPage(client: client, stay: stay),
             ),
           ),
         ),
@@ -294,10 +289,7 @@ class _QuickActionsGrid extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => DigitalKeyPage(
-                client: client,
-                stay: stay,
-              ),
+              builder: (_) => DigitalKeyPage(client: client, stay: stay),
             ),
           ),
         ),
@@ -308,10 +300,7 @@ class _QuickActionsGrid extends StatelessWidget {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => GuestUpsellPage(
-              client: client,
-              stayId: stay.id,
-            ),
+            builder: (_) => GuestUpsellPage(client: client, stayId: stay.id),
           ),
         ),
       ),
@@ -323,10 +312,7 @@ class _QuickActionsGrid extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => GuestCheckoutPage(
-                client: client,
-                stay: stay,
-              ),
+              builder: (_) => GuestCheckoutPage(client: client, stay: stay),
             ),
           ),
         ),
@@ -385,10 +371,7 @@ class _QuickAction extends StatelessWidget {
 // ═══════════════════════════════════════════════════════════════════════════
 
 class _LoyaltyTeaserCard extends StatefulWidget {
-  const _LoyaltyTeaserCard({
-    required this.client,
-    required this.loyaltyNumber,
-  });
+  const _LoyaltyTeaserCard({required this.client, required this.loyaltyNumber});
   final BffClient client;
   final String loyaltyNumber;
 
@@ -429,10 +412,14 @@ class _LoyaltyTeaserCardState extends State<_LoyaltyTeaserCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${loyalty.tier} Member',
-                          style: theme.textTheme.titleSmall),
-                      Text('${loyalty.currentPoints} points',
-                          style: theme.textTheme.headlineSmall),
+                      Text(
+                        '${loyalty.tier} Member',
+                        style: theme.textTheme.titleSmall,
+                      ),
+                      Text(
+                        '${loyalty.currentPoints} points',
+                        style: theme.textTheme.headlineSmall,
+                      ),
                       if (loyalty.pointsToNextTier > 0)
                         Text(
                           '${loyalty.pointsToNextTier} pts to ${loyalty.nextTier ?? "next tier"}',
@@ -465,9 +452,11 @@ class _EmptyStaysView extends StatelessWidget {
         const SizedBox(height: 60),
         Icon(Icons.hotel_outlined, size: 80, color: Colors.grey.shade400),
         const SizedBox(height: 16),
-        Text('No Upcoming Stays',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge),
+        Text(
+          'No Upcoming Stays',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         const SizedBox(height: 8),
         const Text(
           'Your upcoming reservations will appear here once booked.',
@@ -494,10 +483,15 @@ class _ErrorView extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
-            Text('Something went wrong', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Something went wrong',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             Text(
-              error is BffException ? (error as BffException).message : '$error',
+              error is BffException
+                  ? (error as BffException).message
+                  : '$error',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.grey),
             ),

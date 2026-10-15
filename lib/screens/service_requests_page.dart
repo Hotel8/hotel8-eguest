@@ -66,9 +66,9 @@ class _ServiceRequestsPageState extends State<ServiceRequestsPage> {
             }
           } on BffException catch (e) {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Failed: ${e.message}')),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Failed: ${e.message}')));
             }
           }
         },
@@ -104,13 +104,22 @@ class _ServiceRequestsPageState extends State<ServiceRequestsPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                      const Icon(
+                        Icons.error_outline,
+                        size: 48,
+                        color: Colors.red,
+                      ),
                       const SizedBox(height: 12),
-                      Text(snap.error is BffException
-                          ? (snap.error as BffException).message
-                          : '${snap.error}'),
+                      Text(
+                        snap.error is BffException
+                            ? (snap.error as BffException).message
+                            : '${snap.error}',
+                      ),
                       const SizedBox(height: 16),
-                      FilledButton(onPressed: _refresh, child: const Text('Retry')),
+                      FilledButton(
+                        onPressed: _refresh,
+                        child: const Text('Retry'),
+                      ),
                     ],
                   ),
                 ),
@@ -121,17 +130,23 @@ class _ServiceRequestsPageState extends State<ServiceRequestsPage> {
               return ListView(
                 children: [
                   const SizedBox(height: 80),
-                  Icon(Icons.room_service_outlined,
-                      size: 72, color: Colors.grey.shade400),
+                  Icon(
+                    Icons.room_service_outlined,
+                    size: 72,
+                    color: Colors.grey.shade400,
+                  ),
                   const SizedBox(height: 16),
-                  const Text('No Service Requests',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  const Text(
+                    'No Service Requests',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
                   const SizedBox(height: 8),
                   Text(
-                      'Tap + to request housekeeping, maintenance,\nroom service, and more.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey.shade600)),
+                    'Tap + to request housekeeping, maintenance,\nroom service, and more.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
                 ],
               );
             }
@@ -177,32 +192,43 @@ class _RequestCard extends StatelessWidget {
                 Icon(request.type.icon, color: Colors.blue, size: 28),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: Text(request.type.label,
-                      style: theme.textTheme.titleMedium),
+                  child: Text(
+                    request.type.label,
+                    style: theme.textTheme.titleMedium,
+                  ),
                 ),
                 _StatusChip(status: request.status),
               ],
             ),
             const SizedBox(height: 8),
-            Text(request.subject, style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              request.subject,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
             if (request.description.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Text(request.description,
-                  style: TextStyle(color: Colors.grey.shade700)),
+              Text(
+                request.description,
+                style: TextStyle(color: Colors.grey.shade700),
+              ),
             ],
             const Divider(height: 16),
             Row(
               children: [
                 Icon(Icons.access_time, size: 14, color: Colors.grey.shade500),
                 const SizedBox(width: 4),
-                Text('Submitted ${fmt.format(request.createdAt)}',
-                    style: theme.textTheme.bodySmall),
+                Text(
+                  'Submitted ${fmt.format(request.createdAt)}',
+                  style: theme.textTheme.bodySmall,
+                ),
                 if (request.assignedTo != null) ...[
                   const SizedBox(width: 16),
                   Icon(Icons.person, size: 14, color: Colors.grey.shade500),
                   const SizedBox(width: 4),
-                  Text('Assigned: ${request.assignedTo}',
-                      style: theme.textTheme.bodySmall),
+                  Text(
+                    'Assigned: ${request.assignedTo}',
+                    style: theme.textTheme.bodySmall,
+                  ),
                 ],
               ],
             ),
@@ -219,8 +245,10 @@ class _RequestCard extends StatelessWidget {
                     const Icon(Icons.comment, size: 16, color: Colors.blue),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(request.staffNote!,
-                          style: const TextStyle(color: Colors.blue)),
+                      child: Text(
+                        request.staffNote!,
+                        style: const TextStyle(color: Colors.blue),
+                      ),
                     ),
                   ],
                 ),
@@ -253,8 +281,14 @@ class _StatusChip extends StatelessWidget {
         color = Colors.grey;
     }
     return Chip(
-      label: Text(status.label,
-          style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600)),
+      label: Text(
+        status.label,
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       padding: EdgeInsets.zero,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       backgroundColor: color.withValues(alpha: 0.1),
@@ -309,7 +343,13 @@ class _NewRequestSheetState extends State<_NewRequestSheet> {
     );
     if (time == null) return;
     setState(() {
-      _scheduledFor = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      _scheduledFor = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+      );
     });
   }
 
@@ -317,21 +357,23 @@ class _NewRequestSheetState extends State<_NewRequestSheet> {
     final subject = _subjectController.text.trim();
     final description = _descriptionController.text.trim();
     if (subject.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a subject.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter a subject.')));
       return;
     }
-    widget.onSubmit(ServiceRequest(
-      id: '',
-      stayId: widget.stayId,
-      roomNumber: widget.roomNumber,
-      type: _type,
-      subject: subject,
-      description: description,
-      createdAt: DateTime.now(),
-      scheduledFor: _scheduledFor,
-    ));
+    widget.onSubmit(
+      ServiceRequest(
+        id: '',
+        stayId: widget.stayId,
+        roomNumber: widget.roomNumber,
+        type: _type,
+        subject: subject,
+        description: description,
+        createdAt: DateTime.now(),
+        scheduledFor: _scheduledFor,
+      ),
+    );
   }
 
   @override
@@ -340,7 +382,10 @@ class _NewRequestSheetState extends State<_NewRequestSheet> {
     final fmt = DateFormat('MMM d, h:mm a');
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        16, 16, 16, 16 + MediaQuery.of(context).viewInsets.bottom,
+        16,
+        16,
+        16,
+        16 + MediaQuery.of(context).viewInsets.bottom,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -386,9 +431,11 @@ class _NewRequestSheetState extends State<_NewRequestSheet> {
               child: ListTile(
                 leading: const Icon(Icons.schedule, color: Colors.blue),
                 title: const Text('Schedule (optional)'),
-                subtitle: Text(_scheduledFor != null
-                    ? fmt.format(_scheduledFor!)
-                    : 'Tap to select a date and time'),
+                subtitle: Text(
+                  _scheduledFor != null
+                      ? fmt.format(_scheduledFor!)
+                      : 'Tap to select a date and time',
+                ),
                 trailing: _scheduledFor != null
                     ? IconButton(
                         icon: const Icon(Icons.clear),

@@ -60,12 +60,14 @@ class _GuestCheckoutPageState extends State<GuestCheckoutPage> {
       builder: (ctx) => AlertDialog(
         title: const Text('Express Check-Out'),
         content: const Text(
-            'You will be checked out and your folio will be settled using '
-            'your payment method on file. A receipt will be emailed to you.'),
+          'You will be checked out and your folio will be settled using '
+          'your payment method on file. A receipt will be emailed to you.',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('Check Out'),
@@ -77,13 +79,14 @@ class _GuestCheckoutPageState extends State<GuestCheckoutPage> {
 
     setState(() => _checkingOut = true);
     try {
-      await widget.client.checkOut(CheckOutRequest(
-        stayId: widget.stay.id,
-        emailReceipt: _emailReceipt,
-      ));
+      await widget.client.checkOut(
+        CheckOutRequest(stayId: widget.stay.id, emailReceipt: _emailReceipt),
+      );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Checked out. Thank you for your stay! 🏁')),
+          const SnackBar(
+            content: Text('Checked out. Thank you for your stay! 🏁'),
+          ),
         );
         Navigator.pop(context, true);
       }
@@ -100,19 +103,21 @@ class _GuestCheckoutPageState extends State<GuestCheckoutPage> {
 
   Future<void> _submitRating() async {
     if (_rating == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a rating.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a rating.')));
       return;
     }
     try {
-      await widget.client.submitStayRating(StayRating(
-        stayId: widget.stay.id,
-        overallScore: _rating,
-        comment: _commentController.text.trim().isEmpty
-            ? null
-            : _commentController.text.trim(),
-      ));
+      await widget.client.submitStayRating(
+        StayRating(
+          stayId: widget.stay.id,
+          overallScore: _rating,
+          comment: _commentController.text.trim().isEmpty
+              ? null
+              : _commentController.text.trim(),
+        ),
+      );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Thank you for your feedback! ⭐')),
@@ -122,9 +127,8 @@ class _GuestCheckoutPageState extends State<GuestCheckoutPage> {
       }
     } on BffException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Failed: ${e.message}')));
       }
     }
   }
@@ -146,12 +150,16 @@ class _GuestCheckoutPageState extends State<GuestCheckoutPage> {
                 children: [
                   const Icon(Icons.error_outline, color: Colors.red, size: 48),
                   const SizedBox(height: 8),
-                  Text(snap.error is BffException
-                      ? (snap.error as BffException).message
-                      : '${snap.error}'),
+                  Text(
+                    snap.error is BffException
+                        ? (snap.error as BffException).message
+                        : '${snap.error}',
+                  ),
                   const SizedBox(height: 12),
                   FilledButton(
-                      onPressed: _refreshFolio, child: const Text('Retry')),
+                    onPressed: _refreshFolio,
+                    child: const Text('Retry'),
+                  ),
                 ],
               ),
             );
@@ -232,47 +240,68 @@ class _FolioCard extends StatelessWidget {
             else ...[
               Text('Charges', style: theme.textTheme.titleSmall),
               const SizedBox(height: 4),
-              ...folio.charges.map((item) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Row(
-                      children: [
-                        Text(fmt.format(item.date),
-                            style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(item.description)),
-                        Text(
-                          '${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+              ...folio.charges.map(
+                (item) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    children: [
+                      Text(
+                        fmt.format(item.date),
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
                         ),
-                      ],
-                    ),
-                  )),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(item.description)),
+                      Text(
+                        '${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
             if (folio.payments.isNotEmpty) ...[
               const SizedBox(height: 12),
               Text('Payments', style: theme.textTheme.titleSmall),
               const SizedBox(height: 4),
-              ...folio.payments.map((item) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Row(
-                      children: [
-                        Text(fmt.format(item.date),
-                            style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(item.description)),
-                        Text(
-                          '${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
-                          style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w500),
+              ...folio.payments.map(
+                (item) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    children: [
+                      Text(
+                        fmt.format(item.date),
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
                         ),
-                      ],
-                    ),
-                  )),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(item.description)),
+                      Text(
+                        '${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
             const Divider(),
-            _SummaryRow('Total Charges',
-                '${folio.currencyCode} ${folio.totalCharges.toStringAsFixed(2)}'),
-            _SummaryRow('Total Payments',
-                '${folio.currencyCode} ${folio.totalPayments.toStringAsFixed(2)}'),
+            _SummaryRow(
+              'Total Charges',
+              '${folio.currencyCode} ${folio.totalCharges.toStringAsFixed(2)}',
+            ),
+            _SummaryRow(
+              'Total Payments',
+              '${folio.currencyCode} ${folio.totalPayments.toStringAsFixed(2)}',
+            ),
             const SizedBox(height: 4),
             _SummaryRow(
               folio.balance > 0 ? 'Balance Due' : 'Credit',
@@ -345,11 +374,15 @@ class _ExpressCheckoutCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.flash_on,
-                    color: balance > 0 ? Colors.red : Colors.green),
+                Icon(
+                  Icons.flash_on,
+                  color: balance > 0 ? Colors.red : Colors.green,
+                ),
                 const SizedBox(width: 8),
-                const Text('Express Check-Out',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                const Text(
+                  'Express Check-Out',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -379,8 +412,12 @@ class _ExpressCheckoutCard extends StatelessWidget {
                 onPressed: loading ? null : onCheckout,
                 icon: loading
                     ? const SizedBox(
-                        width: 18, height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : const Icon(Icons.logout),
                 label: Text(loading ? 'Processing...' : 'Check Out Now'),
@@ -418,8 +455,10 @@ class _RateYourStayCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Rate Your Stay',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            const Text(
+              'Rate Your Stay',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

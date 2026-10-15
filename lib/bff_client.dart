@@ -20,9 +20,9 @@ import 'models.dart';
 
 class BffClient {
   BffClient({String? baseUrl, String? propertyId, http.Client? httpClient})
-      : _baseUrl = baseUrl ?? _resolveBaseUrl(),
-        _propertyId = propertyId ?? '',
-        _httpClient = httpClient ?? http.Client();
+    : _baseUrl = baseUrl ?? _resolveBaseUrl(),
+      _propertyId = propertyId ?? '',
+      _httpClient = httpClient ?? http.Client();
 
   final String _baseUrl;
 
@@ -62,8 +62,10 @@ class BffClient {
   void setAuthToken(String? token) => _authToken = token;
 
   Future<Map<String, dynamic>> _getJson(String path) async {
-    final resp =
-        await _httpClient.get(Uri.parse(_path(path)), headers: _headers());
+    final resp = await _httpClient.get(
+      Uri.parse(_path(path)),
+      headers: _headers(),
+    );
     return _handle(resp);
   }
 
@@ -100,10 +102,10 @@ class BffClient {
   }
 
   Map<String, String> _headers() => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        if (_authToken != null) 'Authorization': 'Bearer $_authToken',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    if (_authToken != null) 'Authorization': 'Bearer $_authToken',
+  };
 
   Future<Map<String, dynamic>> _handle(http.Response resp) async {
     final body = resp.body.isEmpty ? '{}' : resp.body;
@@ -176,9 +178,7 @@ class BffClient {
     await _postJson(
       '/proxy/hotel8-pms/v1/properties/$_propertyId'
       '/reservations/${request.reservationId}/check-in',
-      {
-        if (request.roomNumber != null) 'room_number': request.roomNumber,
-      },
+      {if (request.roomNumber != null) 'room_number': request.roomNumber},
     );
     if (request.activateDigitalKey) {
       final keys = await _postJson(
@@ -239,7 +239,8 @@ class BffClient {
       'amount': amount.toStringAsFixed(2),
       'currency': currencyCode,
       if (paymentMethodToken != null) 'payment_method_id': paymentMethodToken,
-      'idempotency_key': 'hotel8-eguest:$stayId:${DateTime.now().millisecondsSinceEpoch}',
+      'idempotency_key':
+          'hotel8-eguest:$stayId:${DateTime.now().millisecondsSinceEpoch}',
     });
   }
 
@@ -325,11 +326,7 @@ class BffClient {
   }) async {
     final issued = await _postJson(
       '/proxy/hotel8-pms/v1/properties/$_propertyId/digital-keys',
-      {
-        'reservation_id': stayId,
-        'key_type': keyType,
-        'count': 1,
-      },
+      {'reservation_id': stayId, 'key_type': keyType, 'count': 1},
     );
     final items = (issued['items'] as List<dynamic>?) ?? const [];
     if (items.isEmpty) {
@@ -359,9 +356,11 @@ class BffClient {
 
   /// `GET /proxy/ups/ups/v1/offers?stay_id=...`
   Future<List<UpsellOffer>> getUpsellOffers(String stayId) async {
-    final json =
-        await _getJson('/proxy/hotel8-upsell/v1/offers/for-reservation?reservation_id=${Uri.encodeComponent(stayId)}');
-    final list = json['offers'] as List<dynamic>? ??
+    final json = await _getJson(
+      '/proxy/hotel8-upsell/v1/offers/for-reservation?reservation_id=${Uri.encodeComponent(stayId)}',
+    );
+    final list =
+        json['offers'] as List<dynamic>? ??
         json['data'] as List<dynamic>? ??
         const [];
     return list
@@ -371,8 +370,10 @@ class BffClient {
 
   /// `POST /proxy/ups/ups/v1/offers/accept`
   Future<UpsellOffer> acceptOffer(UpsellOffer offer) async {
-    final json =
-        await _postJson('/proxy/hotel8-upsell/v1/offers/accept', offer.toJson());
+    final json = await _postJson(
+      '/proxy/hotel8-upsell/v1/offers/accept',
+      offer.toJson(),
+    );
     return UpsellOffer.fromJson(json);
   }
 
@@ -421,11 +422,11 @@ class BffClient {
   Future<List<LoyaltyTransaction>> getLoyaltyTransactions(
     String memberId,
   ) async {
-    final json =
-        await _getJson(
-          '/proxy/hotel8-loyalty/v1/members/$memberId/transactions',
-        );
-    final list = json['transactions'] as List<dynamic>? ??
+    final json = await _getJson(
+      '/proxy/hotel8-loyalty/v1/members/$memberId/transactions',
+    );
+    final list =
+        json['transactions'] as List<dynamic>? ??
         json['data'] as List<dynamic>? ??
         const [];
     return list
@@ -439,14 +440,11 @@ class BffClient {
 
   /// `POST /proxy/hotel8-pms/v1/properties/{p}/feedback`
   Future<void> submitStayRating(StayRating rating) async {
-    await _postJson(
-      '/proxy/hotel8-pms/v1/properties/$_propertyId/feedback',
-      {
-        'reservation_id': rating.stayId,
-        'rating': rating.overallScore,
-        if (rating.comment != null) 'comment': rating.comment,
-      },
-    );
+    await _postJson('/proxy/hotel8-pms/v1/properties/$_propertyId/feedback', {
+      'reservation_id': rating.stayId,
+      'rating': rating.overallScore,
+      if (rating.comment != null) 'comment': rating.comment,
+    });
   }
 
   // ═════════════════════════════════════════════════════════════════════
@@ -459,7 +457,8 @@ class BffClient {
     final json = await _getJson(
       '/proxy/hotel8-loyalty/v1/members/$memberId/rewards',
     );
-    final list = (json['rewards'] as List<dynamic>?) ??
+    final list =
+        (json['rewards'] as List<dynamic>?) ??
         (json['items'] as List<dynamic>?) ??
         const [];
     return list.map((e) => Reward.fromJson(e as Map<String, dynamic>)).toList();
@@ -483,9 +482,7 @@ class BffClient {
 
   /// `GET /proxy/hotel8-pos/v1/guest/{p}/menu` — room-service menu.
   Future<List<RoomServiceMenuItem>> getRoomServiceMenu() async {
-    final json = await _getJson(
-      '/proxy/hotel8-pos/v1/guest/$_propertyId/menu',
-    );
+    final json = await _getJson('/proxy/hotel8-pos/v1/guest/$_propertyId/menu');
     final list = (json['items'] as List<dynamic>?) ?? const [];
     return list
         .map((e) => RoomServiceMenuItem.fromJson(e as Map<String, dynamic>))
@@ -501,11 +498,7 @@ class BffClient {
   }) async {
     final json = await _postJson(
       '/proxy/hotel8-pos/v1/guest/$_propertyId/orders',
-      {
-        'outlet_id': outletId,
-        'reservation_id': reservationId,
-        'items': items,
-      },
+      {'outlet_id': outletId, 'reservation_id': reservationId, 'items': items},
     );
     return RoomServiceOrder.fromJson(json);
   }
@@ -566,9 +559,7 @@ class BffClient {
     await _postJson(
       '/proxy/hotel8-pms/v1/properties/$_propertyId'
       '/reservations/$reservationId/link-guest',
-      {
-        if (targetProfileId != null) 'target_profile_id': targetProfileId,
-      },
+      {if (targetProfileId != null) 'target_profile_id': targetProfileId},
     );
   }
 

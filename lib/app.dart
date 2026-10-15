@@ -150,9 +150,7 @@ class _GuestLandingPage extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Sign in to your stay',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
+              style: Theme.of(context).textTheme.bodyLarge
                   ?.copyWith(color: Colors.grey[600]),
             ),
             const SizedBox(height: 32),
@@ -176,11 +174,7 @@ class _GuestLandingPage extends StatelessWidget {
 /// Shell with a bottom navigation bar: Home, Services, Chat, Offers,
 /// Digital Key. Shown after the guest has authenticated.
 class GuestShell extends StatefulWidget {
-  const GuestShell({
-    super.key,
-    required this.client,
-    required this.guestId,
-  });
+  const GuestShell({super.key, required this.client, required this.guestId});
 
   final BffClient client;
   final String guestId;
@@ -216,27 +210,15 @@ class _GuestShellState extends State<GuestShell> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      GuestHomePage(
-        client: widget.client,
-        guestId: widget.guestId,
-      ),
-      _ServicesTab(
-        client: widget.client,
-        stayId: _activeStayId ?? '',
-      ),
-      _ChatTab(
-        client: widget.client,
-        stayId: _activeStayId ?? '',
-      ),
+      GuestHomePage(client: widget.client, guestId: widget.guestId),
+      _ServicesTab(client: widget.client, stayId: _activeStayId ?? ''),
+      _ChatTab(client: widget.client, stayId: _activeStayId ?? ''),
       _OffersTab(
         client: widget.client,
         stayId: _activeStayId ?? '',
         guestId: widget.guestId,
       ),
-      _ProfileTab(
-        client: widget.client,
-        guestId: widget.guestId,
-      ),
+      _ProfileTab(client: widget.client, guestId: widget.guestId),
     ];
 
     return Scaffold(
@@ -291,7 +273,8 @@ class _ServicesTab extends StatelessWidget {
       return _Placeholder(
         icon: Icons.room_service_outlined,
         title: 'No Active Stay',
-        message: 'Service requests will appear here once you have an active stay.',
+        message:
+            'Service requests will appear here once you have an active stay.',
       );
     }
     return ServiceRequestsPage(client: client, stayId: stayId);
@@ -309,7 +292,8 @@ class _ChatTab extends StatelessWidget {
       return _Placeholder(
         icon: Icons.chat_outlined,
         title: 'No Active Stay',
-        message: 'Messaging with the front desk will appear here during your stay.',
+        message:
+            'Messaging with the front desk will appear here during your stay.',
       );
     }
     return GuestMessagingPage(
@@ -321,7 +305,11 @@ class _ChatTab extends StatelessWidget {
 }
 
 class _OffersTab extends StatelessWidget {
-  const _OffersTab({required this.client, required this.stayId, required this.guestId});
+  const _OffersTab({
+    required this.client,
+    required this.stayId,
+    required this.guestId,
+  });
   final BffClient client;
   final String stayId;
   final String guestId;
@@ -425,7 +413,10 @@ class _ProfileTabState extends State<_ProfileTab> {
                   Text(p.email, style: TextStyle(color: Colors.grey.shade600)),
                   if (p.phone != null) ...[
                     const SizedBox(height: 2),
-                    Text(p.phone!, style: TextStyle(color: Colors.grey.shade600)),
+                    Text(
+                      p.phone!,
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
                   ],
                 ],
               ),
@@ -446,15 +437,21 @@ class _ProfileTabState extends State<_ProfileTab> {
                       children: [
                         const Icon(Icons.star, color: Colors.amber, size: 28),
                         const SizedBox(width: 8),
-                        Text('${_loyalty!.tier} Member',
-                            style: theme.textTheme.titleMedium),
+                        Text(
+                          '${_loyalty!.tier} Member',
+                          style: theme.textTheme.titleMedium,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text('Current Points: ${_loyalty!.currentPoints}',
-                        style: theme.textTheme.titleSmall),
-                    Text('Lifetime Points: ${_loyalty!.lifetimePoints}',
-                        style: theme.textTheme.bodyMedium),
+                    Text(
+                      'Current Points: ${_loyalty!.currentPoints}',
+                      style: theme.textTheme.titleSmall,
+                    ),
+                    Text(
+                      'Lifetime Points: ${_loyalty!.lifetimePoints}',
+                      style: theme.textTheme.bodyMedium,
+                    ),
                     if (_loyalty!.pointsToNextTier > 0)
                       Text(
                         '${_loyalty!.pointsToNextTier} pts to ${_loyalty!.nextTier ?? "next tier"}',
@@ -498,7 +495,9 @@ class _ProfileTabState extends State<_ProfileTab> {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Edit profile — coming soon')),
+                      const SnackBar(
+                        content: Text('Edit profile — coming soon'),
+                      ),
                     );
                   },
                 ),
@@ -508,7 +507,9 @@ class _ProfileTabState extends State<_ProfileTab> {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Notification preferences — coming soon')),
+                      const SnackBar(
+                        content: Text('Notification preferences — coming soon'),
+                      ),
                     );
                   },
                 ),
@@ -518,7 +519,9 @@ class _ProfileTabState extends State<_ProfileTab> {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Payment methods — coming soon')),
+                      const SnackBar(
+                        content: Text('Payment methods — coming soon'),
+                      ),
                     );
                   },
                 ),
@@ -556,12 +559,13 @@ class _Placeholder extends StatelessWidget {
           children: [
             Icon(icon, size: 72, color: Colors.grey.shade400),
             const SizedBox(height: 16),
-            Text(title,
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey.shade600)),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
             if (onAction != null && actionLabel != null) ...[
               const SizedBox(height: 16),
               FilledButton(onPressed: onAction, child: Text(actionLabel!)),

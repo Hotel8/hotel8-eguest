@@ -50,12 +50,12 @@ class _RewardsPanelState extends State<RewardsPanel> {
       // Resolve the loyalty member through the guest profile chain.
       if (_memberId == null) {
         try {
-          final profile =
-              await widget.client.getGuestProfile(widget.guestId);
+          final profile = await widget.client.getGuestProfile(widget.guestId);
           final loyaltyNumber = profile.loyaltyNumber;
           if (loyaltyNumber != null && loyaltyNumber.isNotEmpty) {
-            final json = await widget.client
-                .getRawJson('/proxy/hotel8-loyalty/v1/members/$loyaltyNumber');
+            final json = await widget.client.getRawJson(
+              '/proxy/hotel8-loyalty/v1/members/$loyaltyNumber',
+            );
             _memberId = json['id'] as String?;
           }
         } on BffException {
@@ -64,14 +64,17 @@ class _RewardsPanelState extends State<RewardsPanel> {
       }
       if (_memberId != null) {
         // Catalog carries the member's balance alongside the items.
-        final json = await widget.client
-            .getRawJson('/proxy/hotel8-loyalty/v1/members/$_memberId/rewards');
+        final json = await widget.client.getRawJson(
+          '/proxy/hotel8-loyalty/v1/members/$_memberId/rewards',
+        );
         _balance = (json['points_balance'] as num?)?.toInt() ?? 0;
-        final list = (json['rewards'] as List<dynamic>?) ??
+        final list =
+            (json['rewards'] as List<dynamic>?) ??
             (json['items'] as List<dynamic>?) ??
             const [];
-        _rewards =
-            list.map((e) => Reward.fromJson(e as Map<String, dynamic>)).toList();
+        _rewards = list
+            .map((e) => Reward.fromJson(e as Map<String, dynamic>))
+            .toList();
       } else {
         _rewards = const [];
       }
@@ -130,8 +133,10 @@ class _RewardsPanelState extends State<RewardsPanel> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text('Your rewards · $_balance pts',
-              style: theme.textTheme.titleMedium),
+          child: Text(
+            'Your rewards · $_balance pts',
+            style: theme.textTheme.titleMedium,
+          ),
         ),
         if (_lastRedemption != null)
           Padding(
@@ -140,7 +145,9 @@ class _RewardsPanelState extends State<RewardsPanel> {
               child: ListTile(
                 leading: const Icon(Icons.redeem, color: Colors.amber),
                 title: Text(_lastRedemption!.voucherCode),
-                subtitle: Text('${_lastRedemption!.itemName} — show at the desk'),
+                subtitle: Text(
+                  '${_lastRedemption!.itemName} — show at the desk',
+                ),
               ),
             ),
           ),
@@ -152,17 +159,16 @@ class _RewardsPanelState extends State<RewardsPanel> {
                 Card(
                   margin: const EdgeInsets.only(bottom: 8),
                   child: ListTile(
-                    leading: Icon(
-                      switch (r.category) {
-                        'DINING' => Icons.restaurant,
-                        'SPA' => Icons.spa,
-                        'STAY' => Icons.hotel,
-                        _ => Icons.card_giftcard,
-                      },
-                      color: r.redeemable ? Colors.amber : Colors.grey,
-                    ),
+                    leading: Icon(switch (r.category) {
+                      'DINING' => Icons.restaurant,
+                      'SPA' => Icons.spa,
+                      'STAY' => Icons.hotel,
+                      _ => Icons.card_giftcard,
+                    }, color: r.redeemable ? Colors.amber : Colors.grey),
                     title: Text(r.name),
-                    subtitle: Text('${r.pointsCost} pts${r.redeemable ? '' : ' — need more points'}'),
+                    subtitle: Text(
+                      '${r.pointsCost} pts${r.redeemable ? '' : ' — need more points'}',
+                    ),
                     trailing: FilledButton.tonal(
                       onPressed: r.redeemable ? () => _redeem(r) : null,
                       child: const Text('Redeem'),
@@ -231,8 +237,14 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Save')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Save'),
+          ),
         ],
       ),
     );
@@ -278,7 +290,9 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                     child: ListTile(
                       leading: const Icon(Icons.credit_card),
                       title: Text(m.label),
-                      subtitle: Text('Token …${m.paymentMethodId.length > 4 ? m.paymentMethodId.substring(m.paymentMethodId.length - 4) : m.paymentMethodId}'),
+                      subtitle: Text(
+                        'Token …${m.paymentMethodId.length > 4 ? m.paymentMethodId.substring(m.paymentMethodId.length - 4) : m.paymentMethodId}',
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline),
                         onPressed: () => _remove(m),
@@ -310,12 +324,16 @@ class _EmptyRewards extends StatelessWidget {
         children: [
           const Icon(Icons.card_giftcard, size: 64, color: Colors.grey),
           const SizedBox(height: 12),
-          Text('No rewards available yet',
-              style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            'No rewards available yet',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           const SizedBox(height: 8),
-          Text('Join the loyalty program or link your member number in Profile.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600)),
+          Text(
+            'Join the loyalty program or link your member number in Profile.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.grey.shade600),
+          ),
           const SizedBox(height: 12),
           FilledButton.tonal(onPressed: onRetry, child: const Text('Refresh')),
         ],

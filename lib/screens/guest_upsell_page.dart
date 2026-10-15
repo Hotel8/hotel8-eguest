@@ -50,12 +50,14 @@ class _GuestUpsellPageState extends State<GuestUpsellPage> {
       builder: (ctx) => AlertDialog(
         title: const Text('Accept Offer'),
         content: Text(
-            'Accept "${offer.title}" for ${offer.currencyCode} '
-            '${offer.price.toStringAsFixed(2)}?'),
+          'Accept "${offer.title}" for ${offer.currencyCode} '
+          '${offer.price.toStringAsFixed(2)}?',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('Accept'),
@@ -67,16 +69,15 @@ class _GuestUpsellPageState extends State<GuestUpsellPage> {
     try {
       await widget.client.acceptOffer(offer);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Accepted: ${offer.title} 🎉')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Accepted: ${offer.title} 🎉')));
         _refresh();
       }
     } on BffException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Failed: ${e.message}')));
       }
     }
   }
@@ -85,16 +86,14 @@ class _GuestUpsellPageState extends State<GuestUpsellPage> {
     try {
       await widget.client.declineOffer(offer);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Declined: ${offer.title}')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Declined: ${offer.title}')));
         _refresh();
       }
     } on BffException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Failed: ${e.message}')));
       }
     }
   }
@@ -125,13 +124,22 @@ class _GuestUpsellPageState extends State<GuestUpsellPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 48,
+                    ),
                     const SizedBox(height: 8),
-                    Text(snap.error is BffException
-                        ? (snap.error as BffException).message
-                        : '${snap.error}'),
+                    Text(
+                      snap.error is BffException
+                          ? (snap.error as BffException).message
+                          : '${snap.error}',
+                    ),
                     const SizedBox(height: 12),
-                    FilledButton(onPressed: _refresh, child: const Text('Retry')),
+                    FilledButton(
+                      onPressed: _refresh,
+                      child: const Text('Retry'),
+                    ),
                   ],
                 ),
               );
@@ -141,17 +149,23 @@ class _GuestUpsellPageState extends State<GuestUpsellPage> {
               return ListView(
                 children: [
                   const SizedBox(height: 80),
-                  Icon(Icons.local_offer_outlined,
-                      size: 72, color: Colors.grey.shade400),
+                  Icon(
+                    Icons.local_offer_outlined,
+                    size: 72,
+                    color: Colors.grey.shade400,
+                  ),
                   const SizedBox(height: 16),
-                  const Text('No Offers Available',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  const Text(
+                    'No Offers Available',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
                   const SizedBox(height: 8),
                   const Text(
-                      'Check back later for room upgrades, spa, dining\nand special experiences.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey)),
+                    'Check back later for room upgrades, spa, dining\nand special experiences.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ],
               );
             }
@@ -202,14 +216,20 @@ class _OfferCard extends StatelessWidget {
             color: _categoryColor(offer.category).withValues(alpha: 0.15),
             child: Row(
               children: [
-                Icon(_categoryIcon(offer.category), size: 32,
-                    color: _categoryColor(offer.category)),
+                Icon(
+                  _categoryIcon(offer.category),
+                  size: 32,
+                  color: _categoryColor(offer.category),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: Text(offer.category.label,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                          color: _categoryColor(offer.category),
-                          fontWeight: FontWeight.bold)),
+                  child: Text(
+                    offer.category.label,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: _categoryColor(offer.category),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 if (offer.validUntil != null)
                   Text(
@@ -226,8 +246,10 @@ class _OfferCard extends StatelessWidget {
               children: [
                 Text(offer.title, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 4),
-                Text(offer.description,
-                    style: TextStyle(color: Colors.grey.shade700)),
+                Text(
+                  offer.description,
+                  style: TextStyle(color: Colors.grey.shade700),
+                ),
                 if (offer.roomTypeFrom != null && offer.roomTypeTo != null) ...[
                   const SizedBox(height: 8),
                   Row(
@@ -252,14 +274,21 @@ class _OfferCard extends StatelessWidget {
                   children: [
                     Text(
                       '${offer.currencyCode} ${offer.price.toStringAsFixed(2)}',
-                      style: theme.textTheme.headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
                     if (isAvailable) ...[
-                      TextButton(onPressed: onDecline, child: const Text('Decline')),
+                      TextButton(
+                        onPressed: onDecline,
+                        child: const Text('Decline'),
+                      ),
                       const SizedBox(width: 8),
-                      FilledButton(onPressed: onAccept, child: const Text('Accept')),
+                      FilledButton(
+                        onPressed: onAccept,
+                        child: const Text('Accept'),
+                      ),
                     ] else
                       Chip(label: Text(offer.status.name.toUpperCase())),
                   ],
@@ -273,15 +302,15 @@ class _OfferCard extends StatelessWidget {
   }
 
   Color _categoryColor(UpsellCategory category) => switch (category) {
-        UpsellCategory.roomUpgrade => Colors.purple,
-        UpsellCategory.spa => Colors.pink,
-        UpsellCategory.dining => Colors.deepOrange,
-        UpsellCategory.experience => Colors.amber,
-        UpsellCategory.lateCheckout => Colors.indigo,
-        UpsellCategory.earlyCheckIn => Colors.teal,
-        UpsellCategory.parking => Colors.blueGrey,
-        UpsellCategory.breakfast => Colors.brown,
-      };
+    UpsellCategory.roomUpgrade => Colors.purple,
+    UpsellCategory.spa => Colors.pink,
+    UpsellCategory.dining => Colors.deepOrange,
+    UpsellCategory.experience => Colors.amber,
+    UpsellCategory.lateCheckout => Colors.indigo,
+    UpsellCategory.earlyCheckIn => Colors.teal,
+    UpsellCategory.parking => Colors.blueGrey,
+    UpsellCategory.breakfast => Colors.brown,
+  };
 
   IconData _categoryIcon(UpsellCategory category) => category.icon;
 }
