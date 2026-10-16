@@ -171,13 +171,13 @@ erDiagram
     STAY_INFO ||--o{ UPSELL_OFFER : "presented"
     STAY_INFO }o--|| ROOM_INFO : "assigned"
     GUEST_PROFILE ||--o{ STAY_INFO : "stays"
-    GUEST_PROFILE ||--o|| LOYALTY_INFO : "member of"
+    GUEST_PROFILE |o--o| LOYALTY_INFO : "member of"
     LOYALTY_INFO ||--o{ LOYALTY_TRANSACTION : "records"
     LOYALTY_INFO }o--|| REWARD : "redeemable"
     LOYALTY_INFO }o--o{ REWARD_REDEMPTION : "redeemed"
     STAY_INFO ||--o{ ROOM_SERVICE_ORDER : "orders via"
     GUEST_PROFILE ||--o{ PAYMENT_METHOD : "holds"
-    STAY_INFO ||--o|| STAY_RATING : "rated by"
+    STAY_INFO |o--o| STAY_RATING : "rated by"
 ```
 
 State machines rendered client-side (authoritative in the services):
@@ -262,7 +262,7 @@ sequenceDiagram
     FOF->>FOF: domain tx + INSERT pms.outbox same tx
     FOF-->>APP: request JSON
     FOF->>BUS: POST /v1/produce (relay)
-    note over BUS: housekeeping/staff consumers react; guest is notified via Post
+    Note over APP,BUS: housekeeping/staff consumers react, guest is notified via Post
 ```
 
 ## 5. Cross-Cutting Concerns
