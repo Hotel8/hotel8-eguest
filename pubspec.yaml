@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: eguest
-description: eGuest — in-stay guest experience app for Hotel8 properties.
+description: eGuest - in-stay guest experience app for Hotel8 properties.
 publish_to: "none"
 version: 0.1.0
 

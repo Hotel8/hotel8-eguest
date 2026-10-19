@@ -2,7 +2,7 @@
 
 ## 1. Summary
 
-Hotel8:eGuest is the guest's in-stay companion app — a Flutter application
+Hotel8:eGuest is the guest's in-stay companion app - a Flutter application
 covering the stay journey from pre-arrival through post-stay: mobile
 check-in/out, folio review and payment, service requests, front-desk
 messaging, digital key management, upsell offers, and loyalty visibility. It
@@ -15,7 +15,7 @@ all through Sentin8:BFF.
 Guest expectations are set by consumer apps: they want to check in from the
 taxi, message the front desk, order room service, and check out without
 queueing. eGuest gives hotel8 that mobile-first surface natively against
-PMS front-office records instead of a bolt-on vendor app — pre-check-in
+PMS front-office records instead of a bolt-on vendor app - pre-check-in
 writes the registration card, service requests land in the PMS work queues,
 messaging threads ride the PMS message rows, and digital keys are issued and
 activated through the PMS key domain (with the kiosk as the fallback for
@@ -46,37 +46,37 @@ persistence; every screen reflects server state at entry.
 
 ## 4. Key Traits and Data Structures
 
-* `BffClient` — typed wrappers over the guest-relevant proxy endpoints;
+* `BffClient` - typed wrappers over the guest-relevant proxy endpoints;
   `BffException` for failures; same-origin base URL resolution on web.
-* `StayInfo` + `StayStatus` — the reservation/stay projection driving the
+* `StayInfo` + `StayStatus` - the reservation/stay projection driving the
   home screen and journey gating (pre-arrival → in-house → departed).
-* `Folio` / `FolioItem` — the cashiering projection for folio review and
+* `Folio` / `FolioItem` - the cashiering projection for folio review and
   express check-out; payments are posted via the payments proxy.
 * `DigitalKey` + `DigitalKeyStatus` (`inactive`/`active`/`expired`/`revoked`)
-  — key lifecycle rendered from the PMS key rows, with activate/deactivate
+  - key lifecycle rendered from the PMS key rows, with activate/deactivate
   actions.
-* `ServiceRequest` + `ServiceRequestType`/`Status` — the request lifecycle
+* `ServiceRequest` + `ServiceRequestType`/`Status` - the request lifecycle
   (open → in progress → completed) the guest tracks.
 * `UpsellOffer` + `OfferStatus` (`available`/`accepted`/`declined`/`expired`)
-  — the upsell funnel with accept/decline actions.
-* `GuestProfile`, `LoyaltyInfo`, `LoyaltyTransaction`, `StayRating` — profile,
+  - the upsell funnel with accept/decline actions.
+* `GuestProfile`, `LoyaltyInfo`, `LoyaltyTransaction`, `StayRating` - profile,
   loyalty, and post-stay feedback projections.
 
 ## 5. Rationale, Trade-offs, and Alternatives
 
-* **Companion, not booking engine** — eGuest starts from an existing
+* **Companion, not booking engine** - eGuest starts from an existing
   reservation (booked via eBooking or the front desk). Rejected: adding a
   booking funnel here (duplicates eBooking and dilutes the in-stay focus).
-* **BFF-only egress** — same as the other hotel8 apps; session custody and
+* **BFF-only egress** - same as the other hotel8 apps; session custody and
   guest scope enforcement live server-side. Rejected: direct PMS calls (even
   read-only) which would bypass guest-level access control.
-* **Guest identity via reservation + profile, not anonymous sessions** — the
+* **Guest identity via reservation + profile, not anonymous sessions** - the
   journey screens are scoped to `guest_id`/`stay_id` resolved server-side;
   the app never guesses tenant context.
-* **Digital key as a PMS-domain record first** — the app renders key state
+* **Digital key as a PMS-domain record first** - the app renders key state
   and triggers activation; BLE/NFC lock handoff is a device concern layered
   on top, which keeps lock-vendor specifics out of the app core.
-* **Plain `http` client + shell state** — journey screens are
+* **Plain `http` client + shell state** - journey screens are
   list-detail-action flows; no cross-screen store needed.
 
 ## 6. Internal Implementation & Invariants (Private Design)
@@ -85,10 +85,10 @@ persistence; every screen reflects server state at entry.
   * Every path constant is rooted in `/proxy/` (`pms/{rsv,fof,csh,crm}`,
     `ups`, `payments`, `loyal`, `post` proxies).
   * Stay-scoped endpoints always qualify the stay (`stay_id=...` query or
-    path id) — no implicit "current stay" on the client.
+    path id) - no implicit "current stay" on the client.
   * Non-2xx ⇒ `BffException`; screens render errors from the message.
   * Key state changes are round-tripped through the PMS endpoints
-    (`activate`, `{id}/deactivate`) — the client never marks a key active
+    (`activate`, `{id}/deactivate`) - the client never marks a key active
     locally.
   * Models round-trip; request classes (`PreCheckInRequest`,
     `CheckInRequest`, `CheckOutRequest`) exist in `models.dart` alongside

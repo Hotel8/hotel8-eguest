@@ -1,4 +1,4 @@
-# Hotel8:eGuest — Detailed Design Document
+# Hotel8:eGuest - Detailed Design Document
 
 ## 1. Scope & Context
 
@@ -95,15 +95,15 @@ graph TD
     C -->|same-origin /proxy/*| BFF[Sentin8:BFF]
 ```
 
-- `main.dart` / `app.dart` — entry + shell with bottom navigation; owns the
+- `main.dart` / `app.dart` - entry + shell with bottom navigation; owns the
   single `BffClient`; `export 'screens/guest_home_page.dart'` composes the
   journey screens.
-- `screens/*.dart` — 10 journey screens; each fetches its own data on entry
+- `screens/*.dart` - 10 journey screens; each fetches its own data on entry
   and pushes the next journey step.
-- `models.dart` — 20+ contract classes/enums, request bodies included.
-- `bff_client.dart` — typed wrappers per proxy endpoint.
+- `models.dart` - 20+ contract classes/enums, request bodies included.
+- `bff_client.dart` - typed wrappers per proxy endpoint.
 
-### Request lifecycle — mobile check-in
+### Request lifecycle - mobile check-in
 
 ```mermaid
 sequenceDiagram
@@ -129,7 +129,7 @@ sequenceDiagram
     end
 ```
 
-### Request lifecycle — express check-out with folio payment
+### Request lifecycle - express check-out with folio payment
 
 ```mermaid
 sequenceDiagram
@@ -216,7 +216,7 @@ stateDiagram-v2
     }
 ```
 
-Notes: `StayInfo` is the journey anchor — screens gate actions on it
+Notes: `StayInfo` is the journey anchor - screens gate actions on it
 (pre-check-in only pre-arrival, folio review only in-house, etc.). `Message`
 is direction-typed (`incoming`/`outgoing`). `UpsellOffer` carries category and
 pricing for the one-tap funnel.
@@ -288,7 +288,7 @@ sequenceDiagram
 flowchart TD
     A[guest action] --> B{call}
     B -->|2xx| C[update journey state]
-    B -->|error| D[BffException — inline message, state preserved]
+    B -->|error| D[BffException - inline message, state preserved]
     B -->|network| E[retry by user action]
     E --> F{domain precondition}
     F -- already done server-side --> G[idempotent state transition]
@@ -300,7 +300,7 @@ flowchart TD
   with a clear error.
 - **Payment declines:** folio remains open; guest can retry or switch
   method; check-out only succeeds after a covered folio.
-- **Stale journey data:** every screen refetches on entry — no cached stay
+- **Stale journey data:** every screen refetches on entry - no cached stay
   snapshot can mask a room change.
 
 ## 7. Concurrency & Performance Model
@@ -345,9 +345,9 @@ graph TD
     WT --> E2E[Hotel8 e2e-ts suite14 drives the guest journey\ncheck-in → request → message → key → check-out via BFF]
 ```
 
-- **Unit** — mappers and lifecycle enum rendering.
-- **Widget** — shell and navigation.
-- **E2E** — the `e2e-ts` guest-journey specs cover check-in flow, service
+- **Unit** - mappers and lifecycle enum rendering.
+- **Widget** - shell and navigation.
+- **E2E** - the `e2e-ts` guest-journey specs cover check-in flow, service
   request, messaging, and check-out through the browser + BFF; deliberately
   NOT tested here: PMS domain logic, RLS tiers, upsell pricing (owned by
   the services).
@@ -355,7 +355,7 @@ graph TD
 ## 10. Open Questions
 
 - Push notification deep links (room ready, request completed): the
-  notification contract is delivered — the app resolves deep-link routes
+  notification contract is delivered - the app resolves deep-link routes
   (`/stay/{id}/room-ready`, `/stay/{id}/request/{rid}`) from the landing URL;
   the remaining piece is the Sentin8:Post push-credential provisioning for
   mobile installs (web gets in-app toasts already).

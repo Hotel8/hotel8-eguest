@@ -8,7 +8,7 @@
       "listing": {
         "app_name": "Hotel8:eGuest",
         "app_slug": "hotel8-eguest",
-        "description": "Universal guest experience app — digital key, room service, concierge, folio, and checkout. Shared across hospitality properties.",
+        "description": "Universal guest experience app - digital key, room service, concierge, folio, and checkout. Shared across hospitality properties.",
         "backend_url": "",
         "supports_dcr": true,
         "visibility": "public",
