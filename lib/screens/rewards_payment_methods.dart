@@ -8,7 +8,7 @@
 //
 // Rewards: loyalty catalog with redeemable flags against the member balance;
 // redemption exchanges points for a voucher code presented at the desk.
-// Payment methods: guest-held bill8 token references (add/remove/default) —
+// Payment methods: guest-held bill8 token references (add/remove/default)  - 
 // folio payments default to the card on file.
 
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class RewardsPanel extends StatefulWidget {
 
   final BffClient client;
 
-  /// The signed-in guest's profile id — the panel resolves the loyalty member
+  /// The signed-in guest's profile id - the panel resolves the loyalty member
   /// through the profile chain (loyalty number → member read).
   final String guestId;
 
@@ -59,7 +59,7 @@ class _RewardsPanelState extends State<RewardsPanel> {
             _memberId = json['id'] as String?;
           }
         } on BffException {
-          // Member resolution is best-effort — catalog shows empty state.
+          // Member resolution is best-effort - catalog shows empty state.
         }
       }
       if (_memberId != null) {
@@ -145,7 +145,7 @@ class _RewardsPanelState extends State<RewardsPanel> {
                 leading: const Icon(Icons.redeem, color: Colors.amber),
                 title: Text(_lastRedemption!.voucherCode),
                 subtitle: Text(
-                  '${_lastRedemption!.itemName} — show at the desk',
+                  '${_lastRedemption!.itemName} - show at the desk',
                 ),
               ),
             ),
@@ -168,7 +168,7 @@ class _RewardsPanelState extends State<RewardsPanel> {
                         color: r.redeemable ? Colors.amber : Colors.grey),
                     title: Text(r.name),
                     subtitle: Text(
-                      '${r.pointsCost} pts${r.redeemable ? '' : ' — need more points'}',
+                      '${r.pointsCost} pts${r.redeemable ? '' : ' - need more points'}',
                     ),
                     trailing: FilledButton.tonal(
                       onPressed: r.redeemable ? () => _redeem(r) : null,
@@ -233,7 +233,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
               decoration: const InputDecoration(
                 labelText: 'Card token',
                 helperText:
-                    'Your card is tokenized by Payments — the app stores the token reference only',
+                    'Your card is tokenized by Payments - the app stores the token reference only',
               ),
             ),
           ],

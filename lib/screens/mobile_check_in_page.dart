@@ -197,7 +197,7 @@ class _MobileCheckInPageState extends State<MobileCheckInPage> {
                 title: Text(widget.stay.propertyName),
                 subtitle: Text(
                   '${widget.stay.confirmationNumber} • '
-                  '${DateFormat('MMM d').format(widget.stay.arrivalDate)} – '
+                  '${DateFormat('MMM d').format(widget.stay.arrivalDate)}  -  '
                   '${DateFormat('MMM d').format(widget.stay.departureDate)} • '
                   '${widget.stay.roomTypeName}',
                 ),

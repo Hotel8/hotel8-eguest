@@ -20,25 +20,25 @@
 
 | Capability | Provided by eGuest |
 |---|---|
-| My Stays (reservation list) | ✅ |
-| Pre-check-in (registration card, arrival time) | ✅ |
-| Mobile check-in with room assignment view | ✅ |
-| Digital key: view, activate, deactivate | ✅ |
-| Upsell offers: view/accept/decline | ✅ |
-| Service requests: submit + track | ✅ |
-| Guest messaging with front desk | ✅ |
-| Folio review + quick pay (express check-out) | ✅ |
-| Mobile check-out with settled folio | ✅ |
-| Stay feedback rating | ✅ |
-| Guest profile + preferences update | ✅ |
-| Loyalty member summary + transaction list | ✅ |
-| Room service / F&B ordering | ✅ dine tab - orders from the room-service menu, bound to the in-house stay (POS guest surface) |
-| Rewards catalog + redemption + tier progress | ✅ offers tab - catalog with redeemable flags; redemption returns a voucher code |
-| Payment-method management | ✅ profile tab - saved bill8 token references (add/remove) |
-| New bookings | ❌ delegated - Hotel8:eBooking |
-| Lobby kiosk key dispensing | ❌ delegated - Hotel8:eKiosk |
-| Staff responses to requests/requests | ❌ delegated - Hotel8:ePMS |
-| Push deep-link landing (room-ready / request updates) | ✅ URL contract (`?tab=`/path routes land on the target tab); mobile push credentials pending the Post integration |
+| My Stays (reservation list) ||
+| Pre-check-in (registration card, arrival time) ||
+| Mobile check-in with room assignment view ||
+| Digital key: view, activate, deactivate ||
+| Upsell offers: view/accept/decline ||
+| Service requests: submit + track ||
+| Guest messaging with front desk ||
+| Folio review + quick pay (express check-out) ||
+| Mobile check-out with settled folio ||
+| Stay feedback rating ||
+| Guest profile + preferences update ||
+| Loyalty member summary + transaction list ||
+| Room service / F&B ordering |dine tab - orders from the room-service menu, bound to the in-house stay (POS guest surface) |
+| Rewards catalog + redemption + tier progress |offers tab - catalog with redeemable flags; redemption returns a voucher code |
+| Payment-method management |profile tab - saved bill8 token references (add/remove) |
+| New bookings |delegated - Hotel8:eBooking |
+| Lobby kiosk key dispensing |delegated - Hotel8:eKiosk |
+| Staff responses to requests/requests |delegated - Hotel8:ePMS |
+| Push deep-link landing (room-ready / request updates) |URL contract (`?tab=`/path routes land on the target tab); mobile push credentials pending the Post integration |
 
 ## 3. Business Capabilities
 

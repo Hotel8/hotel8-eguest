@@ -209,8 +209,8 @@ class _StayHeader extends StatelessWidget {
         leading: const Icon(Icons.hotel, color: Colors.blue, size: 40),
         title: Text(stay.propertyName),
         subtitle: Text(
-          'Room ${stay.roomNumber ?? "—"} • '
-          '${DateFormat('MMM d').format(stay.arrivalDate)} – '
+          'Room ${stay.roomNumber ?? " - "} • '
+          '${DateFormat('MMM d').format(stay.arrivalDate)}  -  '
           '${DateFormat('MMM d').format(stay.departureDate)}',
         ),
       ),

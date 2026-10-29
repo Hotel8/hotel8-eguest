@@ -40,9 +40,9 @@ class EGuestApp extends StatelessWidget {
   }
 }
 
-/// Root widget — bootstraps runtime context + BFF session and shows the
+/// Root widget - bootstraps runtime context + BFF session and shows the
 /// bottom-nav shell. The guest identity comes from the signed-in session
-/// user (`id` is the subject; the PMS profile is linked to it — see
+/// user (`id` is the subject; the PMS profile is linked to it - see
 /// `eguest/DESIGN.md` §2).
 class GuestRoot extends StatefulWidget {
   const GuestRoot({super.key});
@@ -65,7 +65,7 @@ class _GuestRootState extends State<GuestRoot> {
 
   Future<void> _bootstrap() async {
     try {
-      // Same-origin bootstrap — the TLS proxy injects the X-Sentin8-*
+      // Same-origin bootstrap - the TLS proxy injects the X-Sentin8-*
       // headers the runtime context resolves from.
       final ctx = await fetchRuntimeContext(appBaseUrl: '');
       final auth = BffAuthProvider(
@@ -117,7 +117,7 @@ class _GuestRootState extends State<GuestRoot> {
     if (!auth.isSignedIn) {
       return _GuestLandingPage(auth: auth, name: ctx.instanceName);
     }
-    // The signed-in session user id doubles as the guest profile id —
+    // The signed-in session user id doubles as the guest profile id  - 
     // profile rows resolve by the subject (BFF session user id).
     final guestId = auth.user?.id ?? '';
     if (guestId.isEmpty) {
@@ -129,7 +129,7 @@ class _GuestRootState extends State<GuestRoot> {
   }
 }
 
-/// Landing page for guests who have not signed in yet — redirects through
+/// Landing page for guests who have not signed in yet - redirects through
 /// the BFF to the property's Auth sign-in/sign-up.
 class _GuestLandingPage extends StatelessWidget {
   const _GuestLandingPage({required this.auth, required this.name});
@@ -205,7 +205,7 @@ class _GuestShellState extends State<GuestShell> {
         setState(() => _activeStayId = stays.first.id);
       }
     } on BffException {
-      // Non-fatal — tabs that need a stay will show an empty state.
+      // Non-fatal - tabs that need a stay will show an empty state.
     }
   }
 
@@ -499,7 +499,7 @@ class _ProfileTabState extends State<_ProfileTab> {
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Edit profile — coming soon'),
+                        content: Text('Edit profile - coming soon'),
                       ),
                     );
                   },
@@ -511,7 +511,7 @@ class _ProfileTabState extends State<_ProfileTab> {
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Notification preferences — coming soon'),
+                        content: Text('Notification preferences - coming soon'),
                       ),
                     );
                   },
@@ -523,7 +523,7 @@ class _ProfileTabState extends State<_ProfileTab> {
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Payment methods — coming soon'),
+                        content: Text('Payment methods - coming soon'),
                       ),
                     );
                   },

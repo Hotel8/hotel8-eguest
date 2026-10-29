@@ -8,7 +8,7 @@
 /// Simple Dart classes mirroring the PMS / Upsell / POS / Loyalty contract
 /// shapes (see `eguest/DESIGN.md` §3)
 /// and the BFF proxy surface for eGuest. eGuest is the in-stay
-/// companion for hotel guests — mobile check-in/out, service requests,
+/// companion for hotel guests - mobile check-in/out, service requests,
 /// messaging, digital key, upsell offers, and loyalty.
 
 import 'package:flutter/material.dart';
@@ -868,7 +868,7 @@ class CheckOutRequest {
 
 class StayRating {
   final String stayId;
-  final int overallScore; // 1–5
+  final int overallScore; // 1 - 5
   final int? cleanlinessScore;
   final int? serviceScore;
   final int? locationScore;
@@ -936,7 +936,7 @@ class Reward {
       );
 }
 
-/// A redemption outcome — a voucher code the guest can present at the desk.
+/// A redemption outcome - a voucher code the guest can present at the desk.
 class RewardRedemption {
   final String redemptionId;
   final String voucherCode;

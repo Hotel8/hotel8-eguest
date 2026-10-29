@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Hotel8:EGuest
 // SPDX-License-Identifier: Apache-2.0
 
-// eGuest room-service ordering screen — the F&B funnel through the
+// eGuest room-service ordering screen - the F&B funnel through the
 // Hotel8:POS guest-ordering surface (eguest/DESIGN.md §4 Room service).
 //
 // Menu reads order from the property's `ROOM_SERVICE` outlet; the order binds
@@ -97,7 +97,7 @@ class _RoomServicePageState extends State<RoomServicePage> {
 
   /// The ordering client targets the property's room-service outlet; the
   /// server resolves it when `outlet_id` is omitted from the menu call, but
-  /// the order call requires it — read it back from a menu probe.
+  /// the order call requires it - read it back from a menu probe.
   Future<String> _roomServiceOutletId() async {
     final json = await widget.client.getRawJson(
       '/proxy/hotel8-pos/v1/guest/${widget.client.propertyId}/menu',
@@ -222,7 +222,7 @@ class _OrderStatusBar extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: SafeArea(
         child: Text(
-          '${order.checkNumber}: $lines — ${order.total} · ${order.status}',
+          '${order.checkNumber}: $lines - ${order.total} · ${order.status}',
           style: theme.textTheme.bodyMedium,
         ),
       ),

@@ -8,7 +8,7 @@
 /// Thin HTTP client over the real BFF proxy surfaces (see
 /// `eguest/DESIGN.md` §4): PMS routes are property-scoped and
 /// reservation-scoped, loyalty/upsell/payments are vertical services.
-/// All requests go through the BFF server-side token guardian — eGuest
+/// All requests go through the BFF server-side token guardian - eGuest
 /// never talks to a backend directly.
 
 import 'dart:convert';
@@ -26,7 +26,7 @@ class BffClient {
 
   final String _baseUrl;
 
-  /// Property the app serves — from the App runtime context at bootstrap
+  /// Property the app serves - from the App runtime context at bootstrap
   /// (`eguest/DESIGN.md` §2). All PMS calls are property-scoped.
   final String _propertyId;
 
@@ -130,7 +130,7 @@ class BffClient {
   /// `GET /proxy/hotel8-pms/v1/properties/{propertyId}/reservations?guest_profile_id=&upcoming=`
   ///
   /// The guest's stays: profile-bound reservations filtered server-side
-  /// (`guest_profile_id`, `upcoming` are PMS list filters — the client
+  /// (`guest_profile_id`, `upcoming` are PMS list filters - the client
   /// never narrows locally).
   Future<List<StayInfo>> getReservations({
     required String guestId,
@@ -227,7 +227,7 @@ class BffClient {
     return Folio.fromJson(json);
   }
 
-  /// `POST /proxy/bill8-payments/v1/charges` — folio payment capture.
+  /// `POST /proxy/bill8-payments/v1/charges` - folio payment capture.
   Future<Map<String, dynamic>> postPayment({
     required String stayId,
     required double amount,
@@ -316,7 +316,7 @@ class BffClient {
         .toList();
   }
 
-  /// `POST .../digital-keys` (issue) + `/{id}/activate` — the guest can
+  /// `POST .../digital-keys` (issue) + `/{id}/activate` - the guest can
   /// only activate keys the property issued; the client never mints state.
   Future<DigitalKey> activateDigitalKey({
     required String stayId,
@@ -392,7 +392,7 @@ class BffClient {
     return GuestProfile.fromJson(json);
   }
 
-  /// `PUT .../profiles/{id}`? — PMS exposes preference/loyalty-number
+  /// `PUT .../profiles/{id}`? - PMS exposes preference/loyalty-number
   /// setters; the profile body fields the app edits ride those routes.
   Future<GuestProfile> updateGuestProfile(GuestProfile profile) async {
     final loyalty = profile.loyaltyNumber;
@@ -448,7 +448,7 @@ class BffClient {
   // Rewards catalog + redemption (Hotel8:Loyalty)
   // ═════════════════════════════════════════════════════════════════════
 
-  /// `GET /proxy/hotel8-loyalty/v1/members/{id}/rewards` — catalog with
+  /// `GET /proxy/hotel8-loyalty/v1/members/{id}/rewards` - catalog with
   /// per-item redeemable flags against the member's balance.
   Future<List<Reward>> getRewards(String memberId) async {
     final json = await _getJson(
@@ -460,7 +460,7 @@ class BffClient {
     return list.map((e) => Reward.fromJson(e as Map<String, dynamic>)).toList();
   }
 
-  /// `POST /proxy/hotel8-loyalty/v1/rewards/redeem` — points → voucher code.
+  /// `POST /proxy/hotel8-loyalty/v1/rewards/redeem` - points → voucher code.
   Future<RewardRedemption> redeemReward({
     required String memberId,
     required String catalogItemId,
@@ -476,7 +476,7 @@ class BffClient {
   // Room service (Hotel8:POS guest-ordering surface)
   // ═════════════════════════════════════════════════════════════════════
 
-  /// `GET /proxy/hotel8-pos/v1/guest/{p}/menu` — room-service menu.
+  /// `GET /proxy/hotel8-pos/v1/guest/{p}/menu` - room-service menu.
   Future<List<RoomServiceMenuItem>> getRoomServiceMenu() async {
     final json = await _getJson('/proxy/hotel8-pos/v1/guest/$_propertyId/menu');
     final list = (json['items'] as List<dynamic>?) ?? const [];
@@ -485,7 +485,7 @@ class BffClient {
         .toList();
   }
 
-  /// `POST /proxy/hotel8-pos/v1/guest/{p}/orders` — place a room-service
+  /// `POST /proxy/hotel8-pos/v1/guest/{p}/orders` - place a room-service
   /// order bound to the in-house stay.
   Future<RoomServiceOrder> placeRoomServiceOrder({
     required String outletId,
@@ -499,7 +499,7 @@ class BffClient {
     return RoomServiceOrder.fromJson(json);
   }
 
-  /// `GET /proxy/hotel8-pos/v1/guest/{p}/orders/{check_id}` — order status.
+  /// `GET /proxy/hotel8-pos/v1/guest/{p}/orders/{check_id}` - order status.
   Future<RoomServiceOrder> getRoomServiceOrder(String checkId) async {
     final json = await _getJson(
       '/proxy/hotel8-pos/v1/guest/$_propertyId/orders/$checkId',
@@ -511,7 +511,7 @@ class BffClient {
   // Saved payment methods (Hotel8:PMS eguest surface)
   // ═════════════════════════════════════════════════════════════════════
 
-  /// `GET .../payment-methods` — saved methods for the session subject.
+  /// `GET .../payment-methods` - saved methods for the session subject.
   Future<List<PaymentMethodInfo>> getPaymentMethods() async {
     final json = await _getJson(
       '/proxy/hotel8-pms/v1/properties/$_propertyId/payment-methods',
@@ -522,7 +522,7 @@ class BffClient {
         .toList();
   }
 
-  /// `POST .../payment-methods` — save a bill8 token reference.
+  /// `POST .../payment-methods` - save a bill8 token reference.
   Future<PaymentMethodInfo> savePaymentMethod({
     required String label,
     required String paymentMethodId,
@@ -539,14 +539,14 @@ class BffClient {
     return PaymentMethodInfo.fromJson(json);
   }
 
-  /// `DELETE .../payment-methods/{id}` — remove a saved method.
+  /// `DELETE .../payment-methods/{id}` - remove a saved method.
   Future<void> deletePaymentMethod(String methodId) async {
     await _deleteJson(
       '/proxy/hotel8-pms/v1/properties/$_propertyId/payment-methods/$methodId',
     );
   }
 
-  /// `POST .../reservations/{id}/link-guest` — bind the signed-in profile to
+  /// `POST .../reservations/{id}/link-guest` - bind the signed-in profile to
   /// a booking made anonymously in eBooking (reservation↔guest linking).
   Future<void> linkReservationToGuest({
     required String reservationId,
